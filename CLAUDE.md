@@ -36,11 +36,12 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
 - Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
+- Arti nama: One-I = singkatan Optimized Network Engagement Indonesia (menggantikan penjelasan "One" + empat "I" di PRD 5.3). Ringkasan produk PRD bagian 1 kalimat kedua ("Landing page ini menjadi etalase...") adalah catatan internal, jangan ditampilkan.
 - Biru brand #2552FC menggantikan #3B5BFE di PRD bagian 6, dipakai untuk logo, tombol, dan semua aksen biru.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
 - Data kontak asli (placeholder di lib/site.ts).
-- Copy final paragraf 2 section Tentang.
+- Konfirmasi copy paragraf 2 section Tentang (draft di components/sections/about.tsx).
 
 ## Windows (kalau dijalankan di laptop pemilik)
 - Jalankan Python dengan `python`, bukan `python3`.

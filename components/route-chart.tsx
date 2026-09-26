@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, type Transition } from "motion/react";
 import { cn } from "@/lib/utils";
 
 // Visual hero PRD 5.2: garis "rute" landai di Track, lalu melesat naik menuju Grow.
@@ -21,9 +21,11 @@ const stops = [
   { label: "Grow", x: 550, y: 60, delay: DRAW_DELAY + DRAW_DURATION, final: true },
 ];
 
+// `initial` sengaja selalu sama di server dan browser (mencegah hydration mismatch);
+// prefers-reduced-motion cukup membuat semua transisi instan dan mematikan denyut.
 export function RouteChart() {
   const reduceMotion = useReducedMotion();
-  const animate = !reduceMotion;
+  const timing = (transition: Transition): Transition => (reduceMotion ? { duration: 0 } : transition);
 
   return (
     <div className="rounded-2xl border bg-brand-surface p-4 sm:p-6">
@@ -52,9 +54,9 @@ export function RouteChart() {
           <motion.path
             d={area}
             fill="url(#route-chart-fill)"
-            initial={animate ? { opacity: 0 } : false}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
+            transition={timing({ duration: 0.8, delay: 1.2 })}
           />
           <motion.path
             d={line}
@@ -62,28 +64,29 @@ export function RouteChart() {
             strokeWidth="5"
             strokeLinecap="round"
             className="stroke-brand-blue"
-            initial={animate ? { pathLength: 0 } : false}
+            initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: DRAW_DURATION, delay: DRAW_DELAY, ease: "easeInOut" }}
+            transition={timing({ duration: DRAW_DURATION, delay: DRAW_DELAY, ease: "easeInOut" })}
           />
 
           {stops.map((stop) => (
             <motion.g
               key={stop.label}
               style={{ transformBox: "fill-box", transformOrigin: "center" }}
-              initial={animate ? { opacity: 0, scale: 0.4 } : false}
+              initial={{ opacity: 0, scale: 0.4 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.35, delay: stop.delay, ease: "easeOut" }}
+              transition={timing({ duration: 0.35, delay: stop.delay, ease: "easeOut" })}
             >
-              {stop.final && animate && (
+              {stop.final && (
                 <motion.circle
                   cx={stop.x}
                   cy={stop.y}
                   r="11"
                   className="fill-brand-amber"
                   style={{ transformBox: "fill-box", transformOrigin: "center" }}
-                  animate={{ scale: [1, 2.6], opacity: [0.45, 0] }}
-                  transition={{ duration: 1.8, delay: stop.delay + 0.4, repeat: Infinity, ease: "easeOut" }}
+                  initial={{ opacity: 0 }}
+                  animate={reduceMotion ? { opacity: 0 } : { scale: [1, 2.6], opacity: [0.45, 0] }}
+                  transition={timing({ duration: 1.8, delay: stop.delay + 0.4, repeat: Infinity, ease: "easeOut" })}
                 />
               )}
               <circle
@@ -107,9 +110,9 @@ export function RouteChart() {
               stop.final && "border-brand-amber",
             )}
             style={{ left: `${(stop.x / WIDTH) * 100}%`, top: `${(stop.y / HEIGHT) * 100}%` }}
-            initial={animate ? { opacity: 0 } : false}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: stop.delay + 0.1 }}
+            transition={timing({ duration: 0.3, delay: stop.delay + 0.1 })}
           >
             {stop.label}
           </motion.span>
