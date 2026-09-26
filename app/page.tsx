@@ -4,12 +4,12 @@ import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Navbar } from "@/components/sections/navbar";
 import { Problems } from "@/components/sections/problems";
+import { Why } from "@/components/sections/why";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 
 // Urutan section sesuai PRD bagian 4. Placeholder diganti komponen
 // section aslinya di components/sections/, satu per satu.
 const placeholders = [
-  { id: "kenapa", prd: "5.7", title: "Kenapa One-I?" },
   { id: "hubungi", prd: "5.8", title: "Call-to-Action" },
   { id: "kontak", prd: "5.9", title: "Footer — Contact Us" },
 ];
@@ -24,6 +24,7 @@ export default function Home() {
         <Problems />
         <Features />
         <HowItWorks />
+        <Why />
         {placeholders.map((section) => (
           <section key={section.id} id={section.id} className="border-t py-24">
             <div className="mx-auto max-w-6xl px-4">
