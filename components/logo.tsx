@@ -1,14 +1,28 @@
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-// TODO: ikon sementara. Ganti dengan file logo resmi One-I (PRD 6: grafik bar biru).
+// Logo resmi One-I, divektorkan dari docs/brand/logo-one-i-original.png.
+// Versi file lengkapnya ada di app/icon.svg (favicon). Gradien latar pakai CSS
+// supaya logo aman dipakai lebih dari sekali di satu halaman (tanpa bentrok id SVG).
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" className={cn("size-9 text-brand-blue", className)}>
-      <rect x="3" y="17" width="7" height="12" rx="2" fill="currentColor" opacity="0.45" />
-      <rect x="12.5" y="10" width="7" height="19" rx="2" fill="currentColor" opacity="0.7" />
-      <rect x="22" y="3" width="7" height="26" rx="2" fill="currentColor" />
-    </svg>
+    <span
+      aria-hidden="true"
+      className={cn(
+        "inline-block size-9 shrink-0 overflow-hidden rounded-[22.7%] bg-linear-to-br from-[#0655FC] to-[#00B6FF]",
+        className,
+      )}
+    >
+      <svg viewBox="0 0 660 660" className="block size-full">
+        <g fill="#FFFFFF">
+          <rect x="146" y="392" width="80" height="42" rx="11" />
+          <rect x="181" y="392" width="45" height="167" rx="11" />
+          <rect x="415" y="176" width="90" height="383" rx="28" />
+          <circle cx="461" cy="113" r="46.5" />
+        </g>
+        <rect x="281" y="285" width="87" height="274" rx="27" fill="#D6EBFC" />
+      </svg>
+    </span>
   );
 }
 

@@ -35,9 +35,10 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
+- Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber asli: `docs/brand/logo-one-i-original.png`. Gradien logo `#0655FC` → `#00B6FF` sengaja berbeda dari `brand-blue`; jangan dipakai sebagai warna UI.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
-- Data kontak asli dan file logo (placeholder di lib/site.ts dan components/logo.tsx).
+- Data kontak asli (placeholder di lib/site.ts).
 - Copy final paragraf 2 section Tentang.
 
 ## Windows (kalau dijalankan di laptop pemilik)
