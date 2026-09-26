@@ -31,11 +31,13 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Komponen dari 21st.dev: sesuaikan warna, font, dan teks ke brand; ganti import framer-motion ke motion/react.
 - Sebelum selesai: `npm run build` dan `npm run lint` harus bersih.
 
+## Keputusan pemilik project (mengubah/melengkapi PRD)
+- Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
+- Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
+- Nama brand ditulis "One-I" di seluruh halaman.
+
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
-- Tombol WhatsApp melayang dan/atau menu "Contact Us" sebagai tombol? PRD melarang CTA di hero dan navbar.
-- Label menu "Cara Kerja" vs judul section baru "Bagaimana Kami Bisa Membantu?".
-- Penulisan nama brand: One-I / ONE-I / One–I (sementara pakai "One-I").
-- Data kontak asli dan file logo (placeholder di lib/site.ts).
+- Data kontak asli dan file logo (placeholder di lib/site.ts dan components/logo.tsx).
 - Copy final paragraf 2 section Tentang.
 
 ## Windows (kalau dijalankan di laptop pemilik)

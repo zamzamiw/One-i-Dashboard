@@ -21,10 +21,11 @@ export const site = {
 export const nav = [
   { label: "Tentang", href: "#tentang" },
   { label: "Layanan", href: "#layanan" },
-  // TODO: label final. PRD 5.6 mengganti judul section jadi "Bagaimana Kami Bisa Membantu?".
   { label: "Cara Kerja", href: "#cara-kerja" },
-  { label: "Contact Us", href: "#kontak" },
 ] as const;
+
+// Ditampilkan sebagai tombol di navbar, tetap scroll ke section Contact Us.
+export const contactNav = { label: "Contact Us", href: "#kontak" } as const;
 
 export function whatsappLink(message: string = site.contact.whatsappMessage) {
   return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(message)}`;
