@@ -1,5 +1,6 @@
-// Semua data situs di satu tempat. Nilai bertanda TODO masih placeholder:
-// ganti dengan data asli One-I sebelum go-live.
+// Semua data situs di satu tempat.
+// TODO: nilai "xxxx" dan link kosong di bawah adalah placeholder — ganti dengan data asli
+// One-I sebelum go-live. Tombol WhatsApp melayang, CTA band, dan footer mengambil dari sini.
 export const site = {
   name: "One-I",
   legalName: "Optimized Network Engagement Indonesia",
@@ -8,14 +9,18 @@ export const site = {
   description:
     "Sistem informasi yang membantu distributor memantau tim sales, margin, dan performa bisnis.",
   contact: {
-    // TODO: nomor WhatsApp One-I, format internasional tanpa "+" dan spasi (contoh: 6281xxxxxxxxx).
+    // Nomor untuk link wa.me: format internasional tanpa "+" dan spasi (contoh: 6281xxxxxxxxx).
     whatsapp: "620000000000",
-    // TODO: konfirmasi teks pesan default. Penanda "dari website" membantu menghitung leads (PRD bagian 9).
+    // Nomor yang tampil di footer.
+    whatsappDisplay: "+62 xxxx-xxxx-xxxx",
+    // Penanda "dari website" membantu menghitung leads (PRD bagian 9).
     whatsappMessage: "Halo One-I, saya lihat dari website dan ingin konsultasi.",
-    email: "halo@example.com", // TODO
-    instagram: "https://instagram.com/", // TODO
-    facebook: "https://facebook.com/", // TODO
+    email: "xxxx@example.com",
+    address: "xxxx",
+    instagram: "https://instagram.com/",
+    facebook: "https://facebook.com/",
   },
+  designedBy: "xxxx",
 } as const;
 
 export const nav = [

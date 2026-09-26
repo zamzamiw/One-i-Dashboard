@@ -38,10 +38,11 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Nama brand ditulis "One-I" di seluruh halaman.
 - Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
 - Arti nama: One-I = singkatan Optimized Network Engagement Indonesia (menggantikan penjelasan "One" + empat "I" di PRD 5.3). Ringkasan produk PRD bagian 1 kalimat kedua ("Landing page ini menjadi etalase...") adalah catatan internal, jangan ditampilkan.
+- Footer (`components/sections/footer.tsx`, `#kontak`) mengikuti referensi desain dari pemilik project: logo + nama + tagline kiri atas, kolom Navigasi / Kontak / Media Sosial, wordmark "One-I" raksasa selebar kontainer, baris copyright + "Designed by" + "Kembali ke atas". Latar `brand-blue`. Di atas latar biru: logo pakai `<Logo inverse />`, teks sekunder minimal `text-white/90` (white/80 ke bawah gagal kontras AA).
 - Biru brand #2552FC menggantikan #3B5BFE di PRD bagian 6, dipakai untuk logo, tombol, dan semua aksen biru.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
-- Data kontak asli (placeholder di lib/site.ts).
+- Data kontak asli: nomor WhatsApp, email, alamat, link Instagram & Facebook, dan nama "Designed by" (semua placeholder "xxxx" di lib/site.ts).
 - Konfirmasi copy paragraf 2 section Tentang (draft di components/sections/about.tsx).
 - Konfirmasi deskripsi section Masalah (draft di components/sections/problems.tsx).
 - Teks kartu Masalah rata kiri, bukan justify seperti PRD 5.4 (usulan Claude supaya tidak ada spasi renggang di HP; belum dikonfirmasi pemilik).

@@ -29,7 +29,7 @@ Buka http://localhost:3000.
 | `app/layout.tsx` | Font, metadata SEO |
 | `app/globals.css` | Token warna brand |
 | `components/sections/` | Satu file per section |
-| `lib/site.ts` | Nama, menu, **data kontak & nomor WhatsApp** |
+| `lib/site.ts` | Nama, menu, **data kontak, nomor WhatsApp, "Designed by"** (masih placeholder `xxxx`) |
 | `.claude/skills/ui-ux-pro-max/` | Skill desain untuk Claude Code |
 
 ## Stack
