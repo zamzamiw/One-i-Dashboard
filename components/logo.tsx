@@ -1,15 +1,14 @@
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-// Logo resmi One-I, divektorkan dari docs/brand/logo-one-i-original.png.
-// Versi file lengkapnya ada di app/icon.svg (favicon). Gradien latar pakai CSS
-// supaya logo aman dipakai lebih dari sekali di satu halaman (tanpa bentrok id SVG).
+// Logo resmi One-I, divektorkan dari docs/brand/logo-one-i-original.png dengan warna
+// latar brand-blue (keputusan pemilik project). Versi file lengkapnya: app/icon.svg.
 export function LogoMark({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "inline-block size-9 shrink-0 overflow-hidden rounded-[22.7%] bg-linear-to-br from-[#0655FC] to-[#00B6FF]",
+        "inline-block size-9 shrink-0 overflow-hidden rounded-[22.7%] bg-brand-blue",
         className,
       )}
     >
@@ -20,7 +19,7 @@ export function LogoMark({ className }: { className?: string }) {
           <rect x="415" y="176" width="90" height="383" rx="28" />
           <circle cx="461" cy="113" r="46.5" />
         </g>
-        <rect x="281" y="285" width="87" height="274" rx="27" fill="#D6EBFC" />
+        <rect x="281" y="285" width="87" height="274" rx="27" fill="#D8E0FE" />
       </svg>
     </span>
   );

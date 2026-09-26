@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 /*
- * Brand One-I (PRD bagian 6). Ubah hanya kalau PRD berubah.
+ * Brand One-I (PRD bagian 6; brand-blue diganti pemilik project dari #3B5BFE jadi #2552FC).
  * Amber khusus garis, titik, dan aksen dekoratif: kontrasnya di atas putih cuma 2.35:1.
- * Blue di atas navy (3.5:1) hanya untuk teks besar.
+ * Blue di atas navy (3.1:1) hanya untuk teks besar.
  */
 :root {
   --brand-navy: #0f172a;
-  --brand-blue: #3b5bfe;
+  --brand-blue: #2552fc;
   --brand-amber: #ff8a3d;
   --brand-surface: #eef1fb;
 

@@ -17,9 +17,9 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
 
 ## Brand — jangan diganti
-- Token Tailwind: `brand-navy` #0F172A (teks judul, navbar, CTA band), `brand-blue` #3B5BFE (aksen, CTA, logo), `brand-amber` #FF8A3D (aksen sekunder), `brand-surface` #EEF1FB (background card). Didefinisikan di app/globals.css.
+- Token Tailwind: `brand-navy` #0F172A (teks judul, navbar, CTA band), `brand-blue` #2552FC (aksen, CTA, logo — diganti pemilik project dari #3B5BFE di PRD), `brand-amber` #FF8A3D (aksen sekunder), `brand-surface` #EEF1FB (background card). Didefinisikan di app/globals.css.
 - Amber hanya untuk garis, titik, dan aksen dekoratif — tidak untuk teks atau tombol (kontras di atas putih 2.35:1).
-- Blue di atas navy hanya untuk teks besar (kontras 3.5:1).
+- Blue di atas navy hanya untuk teks besar (kontras 3.1:1).
 - Tema terang saja, tidak ada dark mode.
 - Skill ui-ux-pro-max dipakai untuk aturan UX, aksesibilitas, dan checklist. Warna dan font dari PRD SELALU mengalahkan rekomendasi warna/font skill tersebut.
 
@@ -35,7 +35,8 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
-- Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber asli: `docs/brand/logo-one-i-original.png`. Gradien logo `#0655FC` → `#00B6FF` sengaja berbeda dari `brand-blue`; jangan dipakai sebagai warna UI.
+- Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
+- Biru brand #2552FC menggantikan #3B5BFE di PRD bagian 6, dipakai untuk logo, tombol, dan semua aksen biru.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
 - Data kontak asli (placeholder di lib/site.ts).
