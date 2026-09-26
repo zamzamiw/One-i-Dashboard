@@ -15,6 +15,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - `components/sections/` — satu section = satu file.
 - `lib/site.ts` — nama, tagline, menu, data kontak, dan `whatsappLink()`. Semua data kontak diambil dari sini, jangan di-hardcode di komponen.
 - ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
+- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll).
 
 ## Brand — jangan diganti
 - Token Tailwind: `brand-navy` #0F172A (teks judul, navbar, CTA band), `brand-blue` #2552FC (aksen, CTA, logo — diganti pemilik project dari #3B5BFE di PRD), `brand-amber` #FF8A3D (aksen sekunder), `brand-surface` #EEF1FB (background card). Didefinisikan di app/globals.css.
@@ -26,7 +27,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 ## Aturan
 - Semua teks di halaman berbahasa Indonesia, diambil dari PRD. Kalau copy belum ada di PRD, buat draft dan tandai dengan komentar TODO.
 - Mobile-first. Cek tampilan di lebar 375px.
-- Hormati prefers-reduced-motion (pakai `useReducedMotion` dari motion/react).
+- Hormati prefers-reduced-motion (pakai `useReducedMotion` dari motion/react). Prop `initial` dan style awal harus SAMA di server dan browser: reduced motion cukup membuat `transition` jadi `{ duration: 0 }` atau lewat kelas CSS `motion-reduce:`. Jangan pakai `initial={reduce ? false : ...}` atau render bersyarat berdasarkan `useReducedMotion` (memicu React error #418 / hydration mismatch).
 - Target halaman muat < 3 detik. Jangan menambah three.js, GSAP, Lottie, atau library berat lain tanpa bertanya.
 - Komponen dari 21st.dev: sesuaikan warna, font, dan teks ke brand; ganti import framer-motion ke motion/react.
 - Sebelum selesai: `npm run build` dan `npm run lint` harus bersih.
