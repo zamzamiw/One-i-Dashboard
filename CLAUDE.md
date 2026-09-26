@@ -42,6 +42,8 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
 - Data kontak asli (placeholder di lib/site.ts).
 - Konfirmasi copy paragraf 2 section Tentang (draft di components/sections/about.tsx).
+- Konfirmasi deskripsi section Masalah (draft di components/sections/problems.tsx).
+- Teks kartu Masalah rata kiri, bukan justify seperti PRD 5.4 (usulan Claude supaya tidak ada spasi renggang di HP; belum dikonfirmasi pemilik).
 
 ## Windows (kalau dijalankan di laptop pemilik)
 - Jalankan Python dengan `python`, bukan `python3`.
