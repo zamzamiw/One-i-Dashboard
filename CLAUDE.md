@@ -14,8 +14,8 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - `app/page.tsx` — merangkai section sesuai urutan PRD bagian 4.
 - `components/sections/` — satu section = satu file.
 - `lib/site.ts` — nama, tagline, menu, data kontak, dan `whatsappLink()`. Semua data kontak diambil dari sini, jangan di-hardcode di komponen.
-- ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
-- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll), `components/ui/letter-swap.tsx` (huruf bergulir acak saat kursor masuk ke link/tombol induknya), `components/ui/story-scroll.tsx` (`FlowArt` + `FlowSection`: panel bertumpuk, panel berikutnya naik sambil berputar 30° → 0°).
+- ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#testimoni`, `#hubungi`, `#kontak`.
+- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll), `components/ui/letter-swap.tsx` (huruf bergulir acak saat kursor masuk ke link/tombol induknya), `components/ui/story-scroll.tsx` (`FlowArt` + `FlowSection`: panel bertumpuk, panel berikutnya naik sambil berputar 30° → 0°), `components/ui/stagger-testimonials.tsx` (carousel testimoni bertumpuk; foto opsional, tanpa foto tampil inisial).
 - `components/ui/` — tempat komponen gaya shadcn/21st.dev. `hooks/` — custom hooks (alias `@/hooks`, sesuai components.json).
 
 ## Brand — jangan diganti
@@ -38,6 +38,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
 - Navbar mengikuti referensi desain pemilik project (gaya Checkpoint Research): menu huruf kapital `font-mono`; di desktop (≥lg) link tersusun dalam kolom 3 baris (Tentang, Masalah, Layanan | Cara Kerja, Lainnya); dropdown "Lainnya" (Kenapa One-I?, WhatsApp) dengan kotak panah bergaris; tombol "Contact Us ↗" biru bersudut tajam. Di bawah lg: menu hamburger dengan gaya yang sama. Semua teks menu (termasuk Lainnya, isi dropdown, dan Contact Us) memakai animasi random letter swap (`LetterSwap`): hanya mouse, mati untuk prefers-reduced-motion. Data menu: `nav` + `navMore` di lib/site.ts. Link menu HP baru scroll setelah menu selesai menutup (kalau bersamaan, smooth-scroll terhenti).
 - Section Masalah (`components/sections/problems.tsx`) memakai efek story scroll dari 21st.dev, ditulis ulang dengan motion + CSS sticky (GSAP TIDAK dipasang): panel pembuka (judul + deskripsi, tanpa latar) lalu 5 panel masalah berwarna bergantian navy / blue / surface / blue / navy, masing-masing setinggi layar di bawah navbar. Panel tertahan di bawah navbar (`top: var(--nav-h)`). Reduced motion: panel tetap bertumpuk tanpa rotasi. Section ini sekitar 5,4 layar scroll.
+- Section Testimoni (`components/sections/testimonials.tsx`, `#testimoni`) di antara Kenapa One-I? dan CTA band, juga masuk dropdown "Lainnya" di navbar. Isinya masih CONTOH KARANGAN (nama, jabatan, kutipan) karena belum ada testimoni asli; avatar pakai inisial, bukan foto stok (foto orang sungguhan + kutipan karangan = endorsement palsu). Wajib diganti testimoni asli + izin pelanggan, atau section disembunyikan, sebelum go-live.
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
 - Logo resmi: `components/logo.tsx` (navbar: ikon + nama saja lewat `tagline={false}`; tagline TRACK · PERFORM · GROW hanya di footer), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
@@ -51,6 +52,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Data kontak asli: nomor WhatsApp, email, alamat, link Instagram & Facebook, dan nama "Designed by" (semua placeholder "xxxx" di lib/site.ts).
 - Konfirmasi copy paragraf 2 section Tentang (draft di components/sections/about.tsx).
 - Konfirmasi deskripsi section Masalah (draft di components/sections/problems.tsx).
+- Testimoni asli (nama, jabatan/perusahaan, kutipan, foto opsional, izin pelanggan) untuk menggantikan contoh karangan; judul + deskripsi section Testimoni (draft).
 - Judul singkat tiap panel Masalah ("Tim sales tak terpantau", dst.; draft Claude, PRD 5.4 hanya berisi kalimatnya).
 
 ## Windows (kalau dijalankan di laptop pemilik)

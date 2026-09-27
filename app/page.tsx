@@ -6,11 +6,12 @@ import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Navbar } from "@/components/sections/navbar";
 import { Problems } from "@/components/sections/problems";
+import { Testimonials } from "@/components/sections/testimonials";
 import { Why } from "@/components/sections/why";
 import { InteractiveCanvas } from "@/components/ui/interactive-canvas";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 
-// Urutan section sesuai PRD bagian 4.
+// Urutan section sesuai PRD bagian 4, ditambah Testimoni sebelum CTA (keputusan pemilik project).
 export default function Home() {
   return (
     <>
@@ -24,6 +25,7 @@ export default function Home() {
         <Features />
         <HowItWorks />
         <Why />
+        <Testimonials />
         <CtaBand />
       </main>
       <Footer />
