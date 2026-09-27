@@ -43,6 +43,11 @@ export const en: Dictionary = {
     titleAccent: "grow with confidence.",
     subtitle: "An information system that helps distributors monitor their sales team, margins, and business performance.",
     chartTitle: "Growth route chart: gradual in the Track stage, rising at Perform, then soaring at Grow",
+    stages: [
+      { name: "Track", text: "Monitor your sales team's field activity and routes in real time." },
+      { name: "Perform", text: "Measure sales performance and the profit margin of every customer." },
+      { name: "Grow", text: "Make decisions from business insights and grow with confidence." },
+    ],
   },
   about: {
     title: "About One-I",

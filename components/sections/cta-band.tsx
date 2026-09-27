@@ -1,4 +1,4 @@
-import { CornerMarks, ReceiptRule, SectionTag, type SectionTagData } from "@/components/receipt";
+import { CornerMarks, SectionTag, type SectionTagData } from "@/components/receipt";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -44,7 +44,6 @@ export function CtaBand({ t, tag, whatsappHref }: { t: Dictionary["cta"]; tag: S
             {t.button}
             <span className="sr-only"> {t.newTab}</span>
           </a>
-          <ReceiptRule pattern="plus" className="mt-12 text-white/30 sm:mt-16" />
         </Reveal>
         </div>
       </div>

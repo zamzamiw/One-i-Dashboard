@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 // Elemen dekoratif gaya struk belanja (keputusan pemilik project), dipakai di semua section:
-// garis karakter "-----" / "_____" / "=====" / "+ + +", label dalam kurung [ ], tanda "+"
+// garis karakter "-----" / "_____" / "=====", label dalam kurung [ ], tanda "+"
 // di sudut kartu, dan barcode. Semuanya aria-hidden (murni hiasan). Karakter garis dibuat
 // lewat CSS ::before (globals.css), jadi tidak ikut teks halaman saat disalin atau dibaca
 // mesin pencari, dan selalu terpotong rapi selebar wadahnya.
@@ -10,7 +10,6 @@ const patterns = {
   dash: "receipt-rule-dash",
   under: "receipt-rule-under",
   equal: "receipt-rule-equal",
-  plus: "receipt-rule-plus",
 } as const;
 
 export function ReceiptRule({ pattern = "dash", className }: { pattern?: keyof typeof patterns; className?: string }) {

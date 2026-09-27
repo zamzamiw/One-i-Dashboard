@@ -23,8 +23,8 @@ export function Hero({ t }: { t: Dictionary["hero"] }) {
             {t.subtitle}
           </p>
         </div>
-        <div className="relative">
-          <RouteChart title={t.chartTitle} />
+        <div className="relative min-w-0">
+          <RouteChart title={t.chartTitle} stages={t.stages} />
           <CornerMarks className="text-brand-blue" />
         </div>
       </div>
