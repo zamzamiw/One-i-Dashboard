@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { switchLanguage } from "@/components/language-transition";
 import { Logo } from "@/components/logo";
 import { LetterSwap } from "@/components/ui/letter-swap";
 import { localeHref, localeNames, locales, type Locale } from "@/lib/i18n/config";
@@ -14,7 +15,7 @@ import { cn } from "@/lib/utils";
 // link desktop tersusun dalam kolom 3 baris, dropdown "Lainnya" dengan kotak panah, dan
 // tombol Contact Us biru bersudut tajam. Di bawah lg (1024px) diganti menu hamburger.
 // Semua teks menu memakai LetterSwap: huruf bergulir acak saat kursor masuk.
-// Pilihan bahasa ID / EN tampil di semua ukuran layar (di HP: di samping tombol menu).
+// Tombol ganti bahasa tampil di semua ukuran layar (di HP: di samping tombol menu).
 
 type Item = { label: string; href: string; external?: boolean };
 
@@ -63,36 +64,71 @@ function MenuLink({
   );
 }
 
-// Link ke versi bahasa lain (halaman penuh dimuat ulang, mulai dari atas).
-function LanguageSwitcher({ locale, label }: { locale: Locale; label: string }) {
+// Tombol ganti bahasa (keputusan pemilik project): saklar ID/EN. Indonesia = tombol putih dengan
+// penanda biru di kiri; Inggris = tombol biru dengan penanda putih di kanan. Saat diklik, saklar
+// langsung bergeser ke bahasa tujuan (warna berganti halus) sementara layar transisi biru
+// menutupi halaman (components/language-transition.tsx). Tetap berupa link biasa: tanpa
+// JavaScript, atau dengan Ctrl/Cmd+klik, halaman bahasa lain dibuka seperti link biasa.
+function LanguageToggle({ locale, label }: { locale: Locale; label: string }) {
+  const target: Locale = locale === "id" ? "en" : "id";
+  const [pending, setPending] = useState(false);
+  const english = (pending ? target : locale) === "en";
+
+  // Kembali lewat tombol Back (bfcache): tampilkan lagi bahasa halaman ini.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setPending(false);
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
+  const smooth = "duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:transition-none";
+
   return (
-    <div role="group" aria-label={label} className={cn(labelClass, "flex items-center")}>
-      {locales.map((option, index) => (
-        <span key={option} className="flex items-center">
-          {index > 0 && (
-            <span aria-hidden="true" className="text-muted-foreground">
-              /
-            </span>
+    <a
+      href={localeHref(target)}
+      hrefLang={target}
+      lang={target}
+      aria-label={`${label} ${localeNames[target].full} (${localeNames[target].short})`}
+      onClick={(event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        if (pending) return;
+        setPending(true);
+        switchLanguage(localeHref(target));
+      }}
+      className="group inline-flex h-11 items-center"
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          "relative grid h-8 w-[4.5rem] grid-cols-2 border-2 transition-colors",
+          smooth,
+          english ? "border-brand-blue bg-brand-blue" : "border-brand-navy/15 bg-white group-hover:border-brand-blue/50",
+        )}
+      >
+        <span
+          className={cn(
+            "absolute inset-y-0 left-0 w-1/2 transition-[translate,background-color]",
+            smooth,
+            english ? "translate-x-full bg-white" : "translate-x-0 bg-brand-blue",
           )}
-          <a
-            href={localeHref(option)}
-            hrefLang={option}
-            lang={option}
-            aria-current={option === locale ? "true" : undefined}
+        />
+        {locales.map((option) => (
+          <span
+            key={option}
             className={cn(
-              "relative inline-flex h-11 items-center px-1.5 transition-colors hover:text-brand-blue",
-              // Garis penanda lewat ::after: text-decoration tidak sampai ke huruf LetterSwap (inline-flex).
-              option === locale
-                ? "text-foreground after:absolute after:inset-x-1.5 after:bottom-2 after:h-0.5 after:bg-brand-blue"
-                : "text-muted-foreground",
+              "relative flex items-center justify-center font-mono text-xs tracking-[0.06em] transition-colors",
+              smooth,
+              option === "id" ? "text-white" : english ? "text-brand-blue" : "text-muted-foreground",
             )}
           >
-            <LetterSwap label={localeNames[option].short} />
-            <span className="sr-only">{localeNames[option].full}</span>
-          </a>
-        </span>
-      ))}
-    </div>
+            {localeNames[option].short}
+          </span>
+        ))}
+      </span>
+    </a>
   );
 }
 
@@ -253,7 +289,7 @@ export function Navbar({
           </ul>
 
           <div className="flex items-center gap-2 lg:gap-6">
-            <LanguageSwitcher locale={locale} label={t.language} />
+            <LanguageToggle locale={locale} label={t.switchLanguage} />
             <a href={contactHref} className={cn(ctaClass, "hidden lg:inline-flex")}>
               <LetterSwap label={t.contact} />
               <ArrowUpRight

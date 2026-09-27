@@ -20,7 +20,7 @@ export const id = {
     openMenu: "Buka menu",
     closeMenu: "Tutup menu",
     more: "Lainnya",
-    language: "Bahasa",
+    switchLanguage: "Ganti bahasa ke",
     links: {
       tentang: "Tentang",
       masalah: "Masalah",
@@ -31,6 +31,9 @@ export const id = {
     },
     whatsapp: "WhatsApp",
     contact: "Contact Us",
+  },
+  languageTransition: {
+    status: "Mengganti bahasa…",
   },
   hero: {
     titleLead: "Kenali setiap langkah sales,",

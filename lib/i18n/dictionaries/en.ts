@@ -23,7 +23,7 @@ export const en: Dictionary = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     more: "More",
-    language: "Language",
+    switchLanguage: "Switch language to",
     links: {
       tentang: "About",
       masalah: "Problems",
@@ -34,6 +34,9 @@ export const en: Dictionary = {
     },
     whatsapp: "WhatsApp",
     contact: "Contact Us",
+  },
+  languageTransition: {
+    status: "Switching language…",
   },
   hero: {
     titleLead: "Know every sales move,",

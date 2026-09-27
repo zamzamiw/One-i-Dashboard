@@ -117,3 +117,23 @@
     scroll-behavior: smooth;
   }
 }
+
+/*
+ * Layar transisi ganti bahasa (components/language-transition.tsx). Tersembunyi kecuali
+ * <html data-lang-switch>. Pengaman: kalau JavaScript gagal membuka layar ini, ia
+ * disembunyikan otomatis setelah 8 detik supaya halaman tidak tertutup selamanya.
+ */
+.lang-loader {
+  display: none;
+}
+
+html[data-lang-switch] .lang-loader {
+  display: block;
+  animation: lang-loader-failsafe 0s 8s forwards;
+}
+
+@keyframes lang-loader-failsafe {
+  to {
+    visibility: hidden;
+  }
+}
