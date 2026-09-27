@@ -28,7 +28,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur">
       <nav
         aria-label="Navigasi utama"
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4"
+        className="flex h-16 items-center justify-between px-page"
       >
         <a href="#hero" aria-label={`${site.name}, kembali ke atas`} onClick={close}>
           <Logo />
@@ -74,7 +74,7 @@ export function Navbar() {
             transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
             className="overflow-hidden border-t md:hidden"
           >
-            <ul className="space-y-1 px-4 py-4">
+            <ul className="space-y-1 px-page py-4">
               {nav.map((item) => (
                 <li key={item.href}>
                   <a

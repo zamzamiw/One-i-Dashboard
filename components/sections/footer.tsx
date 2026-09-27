@@ -34,9 +34,10 @@ const columns: { title: string; links: FooterLink[]; note?: string }[] = [
 ];
 
 export function Footer() {
+  // overflow-hidden: ruang descent font wordmark raksasa tidak boleh menambah tinggi halaman di bawah footer.
   return (
-    <footer id="kontak" className="bg-brand-blue text-white">
-      <div className="mx-auto max-w-6xl px-4 pt-16 pb-24 sm:pt-20 sm:pb-10">
+    <footer id="kontak" className="overflow-hidden bg-brand-blue text-white">
+      <div className="px-page pt-16 pb-24 sm:pt-20 sm:pb-10">
         <h2 className="sr-only">Contact Us</h2>
 
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">

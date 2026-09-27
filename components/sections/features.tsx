@@ -29,12 +29,12 @@ const features: RouteStep[] = [
 export function Features() {
   return (
     <section id="layanan" className="bg-brand-surface py-20 sm:py-28">
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1fr_1.35fr] lg:gap-20">
+      <div className="grid gap-12 px-page lg:grid-cols-[1fr_1.35fr] lg:gap-20 xl:gap-32">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
             Apa yang Dikerjakan One-I
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
             One-I dirancang untuk membantu distributor menghubungkan tim lapangan dengan informasi yang
             dibutuhkan manajemen.
           </p>

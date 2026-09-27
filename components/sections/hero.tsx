@@ -4,13 +4,13 @@ import { RouteChart } from "@/components/route-chart";
 // Headline sengaja tidak dianimasikan: ia elemen terbesar di layar pertama (LCP).
 export function Hero() {
   return (
-    <section id="hero" className="overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:py-20 lg:grid-cols-[1.15fr_1fr] lg:gap-16 lg:py-28">
+    <section id="hero" className="flex items-center overflow-hidden lg:min-h-[calc(100svh-4rem)]">
+      <div className="grid w-full items-center gap-12 px-page py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24 xl:gap-24">
         <div>
-          <h1 className="text-4xl leading-[1.08] font-bold tracking-tight text-balance sm:text-5xl xl:text-6xl">
+          <h1 className="text-4xl leading-[1.08] font-bold tracking-tight text-balance sm:text-5xl xl:text-6xl 2xl:text-7xl">
             Kenali setiap langkah sales, <span className="text-brand-blue sm:whitespace-nowrap">tumbuh lebih pasti.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl 2xl:max-w-2xl">
             Sistem informasi yang membantu distributor memantau tim sales, margin, dan performa bisnis.
           </p>
         </div>

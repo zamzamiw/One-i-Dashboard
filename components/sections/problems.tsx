@@ -19,21 +19,21 @@ const problems: { icon: LucideIcon; text: string }[] = [
 export function Problems() {
   return (
     <section id="masalah" className="py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+      <div className="px-page">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
             Masalah yang Dihadapi Distributor
           </h2>
           {/* TODO: konfirmasi copy. PRD 5.4 menyebut deskripsi tapi belum menyediakan teksnya. */}
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             Banyak distributor masih mengandalkan laporan manual dan data yang tersebar, sehingga
             masalah di lapangan baru terlihat ketika sudah terlambat.
           </p>
         </div>
 
-        <ul className="mt-12 flex flex-wrap justify-center gap-4">
+        <ul className="mt-12 flex flex-wrap justify-center gap-4 lg:gap-6">
           {problems.map(({ icon: Icon, text }, index) => (
-            <li key={text} className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc((100%-2rem)/3)]">
+            <li key={text} className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc((100%-3rem)/3)]">
               <Reveal
                 delay={index * 0.06}
                 className="flex h-full gap-4 rounded-xl border-l-4 border-brand-amber bg-brand-surface p-5"

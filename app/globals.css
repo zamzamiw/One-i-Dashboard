@@ -47,9 +47,36 @@
   --font-heading: var(--font-space-grotesk);
 }
 
+/*
+ * Kontainer halaman: selebar layar dengan gutter yang ikut membesar
+ * (20px di HP, ±38px tablet, 64px laptop, 96px monitor besar) — tidak dikotak di tengah.
+ * Paragraf tetap dibatasi lebarnya per komponen (max-w-*) supaya enak dibaca.
+ */
+@utility px-page {
+  padding-inline: clamp(1.25rem, 5vw, 6rem);
+}
+
 @layer base {
   * {
     @apply border-border;
+  }
+
+  /* Skala menyeluruh di monitor besar. Pakai persen supaya setelan ukuran font dari
+     browser pengunjung tetap dihormati. Breakpoint media query tidak ikut berubah. */
+  @media (min-width: 1600px) {
+    html {
+      font-size: 106.25%;
+    }
+  }
+  @media (min-width: 1920px) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+  @media (min-width: 2400px) {
+    html {
+      font-size: 125%;
+    }
   }
 
   /* Anchor dari navbar tidak tertutup navbar sticky (tinggi 4rem). */

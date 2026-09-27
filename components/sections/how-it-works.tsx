@@ -12,8 +12,8 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="cara-kerja" className="py-20 sm:py-28">
-      <div className="mx-auto max-w-5xl px-4">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+      <div className="px-page">
+        <h2 className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
           Bagaimana Kami Bisa Membantu?
         </h2>
 

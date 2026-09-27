@@ -42,7 +42,7 @@ function Step({ step, number, last }: { step: RouteStep; number: number; last: b
       {!last && <Segment />}
       <div className="pt-2.5">
         <h3 className="text-xl font-semibold tracking-tight">{step.title}</h3>
-        {step.description && <p className="mt-2 leading-relaxed text-muted-foreground">{step.description}</p>}
+        {step.description && <p className="mt-2 max-w-2xl leading-relaxed text-muted-foreground">{step.description}</p>}
       </div>
     </li>
   );

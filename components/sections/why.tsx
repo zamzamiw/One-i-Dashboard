@@ -13,15 +13,15 @@ const points: { icon: LucideIcon; text: string }[] = [
 export function Why() {
   return (
     <section id="kenapa" className="bg-brand-surface py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">Kenapa One-I?</h2>
+      <div className="px-page">
+        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">Kenapa One-I?</h2>
 
-        <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-6">
           {points.map(({ icon: Icon, text }, index) => (
             <li key={text}>
               <Reveal
                 delay={index * 0.08}
-                className="flex h-full flex-col items-center rounded-2xl border bg-white px-4 py-8 text-center sm:px-6"
+                className="flex h-full flex-col items-center rounded-2xl border bg-white px-4 py-8 text-center sm:px-6 lg:py-12"
               >
                 <span
                   aria-hidden="true"

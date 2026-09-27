@@ -28,6 +28,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 ## Aturan
 - Semua teks di halaman berbahasa Indonesia, diambil dari PRD. Kalau copy belum ada di PRD, buat draft dan tandai dengan komentar TODO.
 - Mobile-first. Cek tampilan di lebar 375px.
+- Layout selebar layar (keputusan pemilik project): JANGAN pakai kontainer `mx-auto max-w-6xl`; pakai utilitas `px-page` (gutter fleksibel 20px–96px, di app/globals.css). Grid/kartu/gambar boleh melebar penuh, tapi paragraf tetap dibatasi (`max-w-xl`–`max-w-3xl`) supaya enak dibaca. Root font-size naik otomatis di ≥1600/1920/2400px. Hero mengisi satu layar di desktop (`lg:min-h-[calc(100svh-4rem)]`). Cek di 320, 375, 768, 1024, 1440, 1920, dan 2560px.
 - Hormati prefers-reduced-motion (pakai `useReducedMotion` dari motion/react). Prop `initial` dan style awal harus SAMA di server dan browser: reduced motion cukup membuat `transition` jadi `{ duration: 0 }` atau lewat kelas CSS `motion-reduce:`. Jangan pakai `initial={reduce ? false : ...}` atau render bersyarat berdasarkan `useReducedMotion` (memicu React error #418 / hydration mismatch).
 - Target halaman muat < 3 detik. Jangan menambah three.js, GSAP, Lottie, atau library berat lain tanpa bertanya.
 - Komponen dari 21st.dev: sesuaikan warna, font, dan teks ke brand; ganti import framer-motion ke motion/react.

@@ -8,8 +8,8 @@ const route = "M40 290 C90 285 110 275 150 270 C220 262 270 250 330 230 C420 200
 
 export function CtaBand() {
   return (
-    <section id="hubungi" className="px-4 py-20 sm:py-24">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20">
+    <section id="hubungi" className="px-page py-20 sm:py-24">
+      <div className="relative overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20 xl:py-28">
         {/* Gema garis rute dari hero, murni dekoratif. Hanya di layar lebar agar tidak
             menabrak judul; titik Grow tetap amber penuh, hanya garisnya yang redup. */}
         <svg
@@ -25,7 +25,7 @@ export function CtaBand() {
         </svg>
 
         <Reveal className="relative">
-          <h2 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl 2xl:text-5xl">
             Siap membuat tim sales Anda lebih terpantau?
           </h2>
           <p className="mt-4 text-lg text-white/75">Diskusikan kebutuhan distribusi Anda dengan One-I.</p>
