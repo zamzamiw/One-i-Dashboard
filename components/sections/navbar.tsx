@@ -205,7 +205,7 @@ export function Navbar({
   }, [moreOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-dashed border-brand-navy/25 bg-background/90 backdrop-blur">
       <nav
         aria-label={t.ariaLabel}
         className="flex h-(--nav-h) items-center justify-between gap-8 px-page"
@@ -270,7 +270,7 @@ export function Navbar({
                     transition={{ duration: reduceMotion ? 0 : 0.15, ease: "easeOut" }}
                     className="absolute top-full left-0 mt-3 w-64 border bg-background shadow-[0_16px_40px_-16px_rgb(15_23_42/0.3)]"
                   >
-                    <ul className="divide-y">
+                    <ul className="divide-y divide-dashed">
                       {moreItems.map((item) => (
                         <li key={item.href}>
                           <MenuLink
@@ -319,10 +319,10 @@ export function Navbar({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
-            className="overflow-hidden border-t lg:hidden"
+            className="overflow-hidden border-t border-dashed lg:hidden"
           >
             <div className="px-page py-4">
-              <ul className="divide-y">
+              <ul className="divide-y divide-dashed">
                 {mobileItems.map((item) => (
                   <li key={item.href}>
                     <MenuLink

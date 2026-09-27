@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
+import { Barcode, ReceiptRule } from "@/components/receipt";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { nav, site } from "@/lib/site";
 
@@ -52,7 +53,7 @@ export function Footer({
 
   // overflow-hidden: ruang descent font wordmark raksasa tidak boleh menambah tinggi halaman di bawah footer.
   return (
-    <footer id="kontak" className="overflow-hidden bg-brand-blue text-white">
+    <footer id="kontak" className="receipt-edge-top overflow-hidden bg-brand-blue text-white">
       <div className="px-page pt-16 pb-24 sm:pt-20 sm:pb-10">
         <h2 className="sr-only">{t.heading}</h2>
 
@@ -60,13 +61,16 @@ export function Footer({
           <div>
             <Logo inverse />
             <p className="mt-6 max-w-xs leading-relaxed text-white/90">{description}</p>
+            <Barcode className="mt-8 h-10 w-44 text-white/90" />
           </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
             {columns.map((column) => (
               <div key={column.title}>
                 <h3 className="text-xs font-semibold tracking-[0.15em] text-white/90 uppercase">
+                  <span aria-hidden="true">[ </span>
                   {column.title}
+                  <span aria-hidden="true"> ]</span>
                 </h3>
                 <ul className="mt-5 space-y-3">
                   {column.links.map((link) => (
@@ -97,7 +101,9 @@ export function Footer({
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4 border-t border-white/30 pt-6 text-sm text-white/90 sm:flex-row sm:items-center sm:justify-between">
+        {/* Garis "=====" seperti batas total di struk. */}
+        <ReceiptRule pattern="equal" className="mt-8 text-white/50" />
+        <div className="mt-6 flex flex-col gap-4 text-sm text-white/90 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-8">
             <p>
               © {YEAR} {site.name} · {site.legalName}

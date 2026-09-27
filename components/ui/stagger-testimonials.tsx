@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ReceiptRule } from "@/components/receipt";
 import { cn } from "@/lib/utils";
 
 // Carousel testimoni bertumpuk (turunan "stagger-testimonials" dari 21st.dev), disesuaikan:
@@ -82,7 +83,8 @@ function TestimonialCard({
       <blockquote className="shrink-0 text-[0.9375rem] leading-snug font-medium sm:text-lg">
         <p>“{testimonial.quote}”</p>
       </blockquote>
-      <figcaption className="mt-auto pt-4 text-sm leading-snug">
+      <figcaption className="mt-auto pt-3 text-sm leading-snug">
+        <ReceiptRule className={cn("mb-3", center ? "text-white/50" : "text-brand-navy/30")} />
         <span className="block font-semibold">{testimonial.name}</span>
         <span className={center ? "text-white/90" : "text-muted-foreground"}>{testimonial.role}</span>
       </figcaption>

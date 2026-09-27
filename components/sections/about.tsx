@@ -1,3 +1,4 @@
+import { SectionTag, type SectionTagData } from "@/components/receipt";
 import { Reveal } from "@/components/reveal";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -11,10 +12,11 @@ const acronym = [
   { letter: "I", word: "Indonesia" },
 ];
 
-export function About({ t }: { t: Dictionary["about"] }) {
+export function About({ t, tag }: { t: Dictionary["about"]; tag: SectionTagData }) {
   return (
     <section id="tentang" className="bg-brand-surface py-20 sm:py-28">
       <div className="px-page text-center">
+        <SectionTag {...tag} className="mb-10 sm:mb-14" />
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">{t.title}</h2>
         <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed sm:text-xl">{t.intro}</p>
 
@@ -22,7 +24,7 @@ export function About({ t }: { t: Dictionary["about"] }) {
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:gap-6">
           {acronym.map((item, index) => (
             <li key={item.letter}>
-              <Reveal delay={index * 0.08} className="h-full rounded-xl border bg-white px-4 py-6 lg:py-10">
+              <Reveal delay={index * 0.08} className="h-full rounded-xl border border-dashed border-brand-navy/25 bg-white px-4 py-6 lg:py-10">
                 <span aria-hidden="true" className="block font-heading text-5xl font-bold text-brand-blue lg:text-6xl xl:text-7xl">
                   {item.letter}
                 </span>

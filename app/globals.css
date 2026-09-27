@@ -137,3 +137,63 @@ html[data-lang-switch] .lang-loader {
     visibility: hidden;
   }
 }
+
+/*
+ * Elemen gaya struk belanja (components/receipt.tsx). Garis dibuat dari karakter lewat
+ * ::before (bukan teks halaman) dan dipotong selebar wadah; 400 karakter cukup untuk layar 2560px.
+ */
+.receipt-rule {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1;
+  user-select: none;
+}
+
+.receipt-rule::before {
+  content: var(--receipt-pattern);
+}
+
+.receipt-rule-dash {
+  --receipt-pattern: "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+}
+
+.receipt-rule-under {
+  --receipt-pattern: "________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________";
+}
+
+.receipt-rule-equal {
+  --receipt-pattern: "================================================================================================================================================================================================================================================================================================================================================================================================================";
+}
+
+.receipt-rule-plus {
+  --receipt-pattern: "+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + ";
+}
+
+/* Barcode dekoratif: pola garis tebal-tipis berulang, warnanya mengikuti currentColor. */
+.receipt-barcode {
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 2px,
+    transparent 2px 4px,
+    currentColor 4px 5px,
+    transparent 5px 8px,
+    currentColor 8px 11px,
+    transparent 11px 12px,
+    currentColor 12px 13px,
+    transparent 13px 16px,
+    currentColor 16px 17px,
+    transparent 17px 19px,
+    currentColor 19px 22px,
+    transparent 22px 25px,
+    currentColor 25px 26px,
+    transparent 26px 28px
+  );
+}
+
+/* Tepi atas bergerigi seperti struk yang disobek (dipakai footer). */
+.receipt-edge-top {
+  --receipt-tooth: 0.625rem;
+  mask: conic-gradient(from -45deg at 50% var(--receipt-tooth), #0000 90deg, #000 0) 50% 0 /
+    calc(var(--receipt-tooth) * 2) 100% repeat-x;
+}

@@ -1,3 +1,4 @@
+import { CornerMarks, ReceiptRule, SectionTag, type SectionTagData } from "@/components/receipt";
 import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -6,10 +7,13 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 // (pesan default terisi otomatis) di tab baru.
 const route = "M40 290 C90 285 110 275 150 270 C220 262 270 250 330 230 C420 200 480 140 550 60";
 
-export function CtaBand({ t, whatsappHref }: { t: Dictionary["cta"]; whatsappHref: string }) {
+export function CtaBand({ t, tag, whatsappHref }: { t: Dictionary["cta"]; tag: SectionTagData; whatsappHref: string }) {
   return (
     <section id="hubungi" className="px-page py-20 sm:py-24">
-      <div className="relative overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20 xl:py-28">
+      {/* Pembungkus untuk tanda "+" di sudut (kartu sendiri overflow-hidden). */}
+      <div className="relative">
+        <CornerMarks className="text-brand-blue" />
+        <div className="relative overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20 xl:py-28">
         {/* Gema garis rute dari hero, murni dekoratif. Hanya di layar lebar agar tidak
             menabrak judul; titik Grow tetap amber penuh, hanya garisnya yang redup. */}
         <svg
@@ -25,6 +29,7 @@ export function CtaBand({ t, whatsappHref }: { t: Dictionary["cta"]; whatsappHre
         </svg>
 
         <Reveal className="relative">
+          <SectionTag {...tag} inverse className="mb-10 sm:mb-14" />
           <h2 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl 2xl:text-5xl">
             {t.title}
           </h2>
@@ -39,7 +44,9 @@ export function CtaBand({ t, whatsappHref }: { t: Dictionary["cta"]; whatsappHre
             {t.button}
             <span className="sr-only"> {t.newTab}</span>
           </a>
+          <ReceiptRule pattern="plus" className="mt-12 text-white/30 sm:mt-16" />
         </Reveal>
+        </div>
       </div>
     </section>
   );

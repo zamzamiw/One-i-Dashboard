@@ -1,14 +1,16 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { ReceiptRule, SectionTag, type SectionTagData } from "@/components/receipt";
 import { Reveal } from "@/components/reveal";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.6 (dulu "Cara Kerja"): tiga langkah singkat tanpa sub-teks.
 // Horizontal di layar sm ke atas, vertikal di HP, dihubungkan garis rute putus-putus.
-export function HowItWorks({ t }: { t: Dictionary["howItWorks"] }) {
+export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: SectionTagData }) {
   const { steps } = t;
   return (
     <section id="cara-kerja" className="py-20 sm:py-28">
       <div className="px-page">
+        <SectionTag {...tag} className="mb-10 sm:mb-14" />
         <h2 className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
           {t.title}
         </h2>
@@ -22,7 +24,11 @@ export function HowItWorks({ t }: { t: Dictionary["howItWorks"] }) {
                   <span className="relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full bg-brand-blue font-heading text-lg font-bold text-white">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="pt-3.5 text-lg font-semibold sm:pt-0">{step}</p>
+                  <div className="pt-3.5 sm:pt-0">
+                    <p className="text-lg font-semibold">{step}</p>
+                    {/* Garis isian "_____" seperti kolom tanda tangan di struk. */}
+                    <ReceiptRule pattern="under" className="mt-1 w-24 text-brand-blue/60 sm:mx-auto" />
+                  </div>
 
                   {!last && (
                     <>
