@@ -15,7 +15,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - `components/sections/` — satu section = satu file.
 - `lib/site.ts` — nama, tagline, menu, data kontak, dan `whatsappLink()`. Semua data kontak diambil dari sini, jangan di-hardcode di komponen.
 - ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
-- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll).
+- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll), `components/ui/letter-swap.tsx` (huruf bergulir acak saat kursor masuk ke link/tombol induknya).
 - `components/ui/` — tempat komponen gaya shadcn/21st.dev. `hooks/` — custom hooks (alias `@/hooks`, sesuai components.json).
 
 ## Brand — jangan diganti
@@ -36,7 +36,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 
 ## Keputusan pemilik project (mengubah/melengkapi PRD)
 - Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
-- Navbar mengikuti referensi desain pemilik project (gaya Checkpoint Research): menu huruf kapital `font-mono`; di desktop (≥lg) link tersusun dalam kolom 3 baris (Tentang, Masalah, Layanan | Cara Kerja, Lainnya); dropdown "Lainnya" (Kenapa One-I?, WhatsApp) dengan kotak panah bergaris; tombol "Contact Us ↗" biru bersudut tajam. Di bawah lg: menu hamburger dengan gaya yang sama. Data menu: `nav` + `navMore` di lib/site.ts. Link menu HP baru scroll setelah menu selesai menutup (kalau bersamaan, smooth-scroll terhenti).
+- Navbar mengikuti referensi desain pemilik project (gaya Checkpoint Research): menu huruf kapital `font-mono`; di desktop (≥lg) link tersusun dalam kolom 3 baris (Tentang, Masalah, Layanan | Cara Kerja, Lainnya); dropdown "Lainnya" (Kenapa One-I?, WhatsApp) dengan kotak panah bergaris; tombol "Contact Us ↗" biru bersudut tajam. Di bawah lg: menu hamburger dengan gaya yang sama. Semua teks menu (termasuk Lainnya, isi dropdown, dan Contact Us) memakai animasi random letter swap (`LetterSwap`): hanya mouse, mati untuk prefers-reduced-motion. Data menu: `nav` + `navMore` di lib/site.ts. Link menu HP baru scroll setelah menu selesai menutup (kalau bersamaan, smooth-scroll terhenti).
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
 - Logo resmi: `components/logo.tsx` (navbar: ikon + nama saja lewat `tagline={false}`; tagline TRACK · PERFORM · GROW hanya di footer), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.

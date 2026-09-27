@@ -4,12 +4,14 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
+import { LetterSwap } from "@/components/ui/letter-swap";
 import { contactNav, nav, navMore, site, whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 // Gaya mengikuti referensi dari pemilik project: menu huruf kapital font mono (Space Mono),
 // link desktop tersusun dalam kolom 3 baris, dropdown "Lainnya" dengan kotak panah, dan
 // tombol Contact Us biru bersudut tajam. Di bawah lg (1024px) diganti menu hamburger.
+// Semua teks menu memakai LetterSwap: huruf bergulir acak saat kursor masuk.
 
 type Item = { label: string; href: string; external?: boolean };
 
@@ -51,7 +53,7 @@ function MenuLink({
       className={cn("group flex items-center justify-between gap-6 transition-colors", labelClass, className)}
     >
       <span>
-        {item.label}
+        <LetterSwap label={item.label} />
         {item.external && <span className="sr-only"> (membuka di tab baru)</span>}
       </span>
       <ArrowBox external={item.external} />
@@ -141,7 +143,7 @@ export function Navbar() {
                   href={item.href}
                   className={cn(labelClass, "flex h-6 items-center transition-colors hover:text-brand-blue")}
                 >
-                  {item.label}
+                  <LetterSwap label={item.label} />
                 </a>
               </li>
             ))}
@@ -164,7 +166,7 @@ export function Navbar() {
                   moreOpen && "text-brand-blue",
                 )}
               >
-                Lainnya
+                <LetterSwap label="Lainnya" />
                 <ChevronDown
                   aria-hidden="true"
                   className={cn("size-3.5 transition-transform motion-reduce:transition-none", moreOpen && "rotate-180")}
@@ -199,7 +201,7 @@ export function Navbar() {
           </ul>
 
           <a href={contactNav.href} className={ctaClass}>
-            {contactNav.label}
+            <LetterSwap label={contactNav.label} />
             <ArrowUpRight
               aria-hidden="true"
               className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
@@ -246,7 +248,7 @@ export function Navbar() {
                 onClick={(event) => navigateMobile(event, contactNav.href)}
                 className={cn(ctaClass, "mt-4 w-full")}
               >
-                {contactNav.label}
+                <LetterSwap label={contactNav.label} />
                 <ArrowUpRight aria-hidden="true" className="size-4" />
               </a>
             </div>
