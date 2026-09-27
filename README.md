@@ -12,7 +12,7 @@ npm install
 npm run dev
 ```
 
-Buka http://localhost:3000.
+Buka http://localhost:3000 (Indonesia) atau http://localhost:3000/en (Inggris).
 
 | Perintah | Fungsi |
 |---|---|
@@ -25,13 +25,14 @@ Buka http://localhost:3000.
 
 | Lokasi | Isi |
 |---|---|
-| `app/page.tsx` | Merangkai semua section sesuai urutan PRD |
-| `app/layout.tsx` | Font, metadata SEO |
+| `app/[lang]/page.tsx` | Merangkai semua section sesuai urutan PRD |
+| `app/[lang]/layout.tsx` | Font, metadata SEO per bahasa |
+| `lib/i18n/dictionaries/` | **Semua teks halaman**: `id.ts` (Indonesia, di `/`) dan `en.ts` (Inggris, di `/en`) |
 | `app/globals.css` | Token warna brand |
 | `components/sections/` | Satu file per section |
 | `components/cursor-crosshair.tsx` | Crosshair kursor di seluruh situs (dipasang di `app/layout.tsx`) |
 | `components/ui/interactive-canvas.tsx` | Latar grid titik interaktif di belakang halaman |
-| `lib/site.ts` | Nama, menu, **data kontak, nomor WhatsApp, "Designed by"** (masih placeholder `xxxx`) |
+| `lib/site.ts` | Nama, **data kontak, nomor WhatsApp, "Designed by"** (masih placeholder `xxxx`), URL situs |
 | `.claude/skills/ui-ux-pro-max/` | Skill desain untuk Claude Code |
 
 ## Stack

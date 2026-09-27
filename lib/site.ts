@@ -1,20 +1,22 @@
-// Semua data situs di satu tempat.
+// Data situs yang sama di semua bahasa. Teks yang diterjemahkan ada di lib/i18n/dictionaries.
 // TODO: nilai "xxxx" dan link kosong di bawah adalah placeholder — ganti dengan data asli
 // One-I sebelum go-live. Tombol WhatsApp melayang, CTA band, dan footer mengambil dari sini.
 export const site = {
   name: "One-I",
   legalName: "Optimized Network Engagement Indonesia",
   tagline: "TRACK · PERFORM · GROW",
-  title: "Sistem Informasi Penjualan untuk Distributor",
-  description:
-    "Sistem informasi yang membantu distributor memantau tim sales, margin, dan performa bisnis.",
+  // URL dasar untuk tag canonical/hreflang. TODO: isi NEXT_PUBLIC_SITE_URL dengan domain asli
+  // saat go-live; di Vercel otomatis memakai domain produksi proyek.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
   contact: {
     // Nomor untuk link wa.me: format internasional tanpa "+" dan spasi (contoh: 6281xxxxxxxxx).
     whatsapp: "620000000000",
     // Nomor yang tampil di footer.
     whatsappDisplay: "+62 xxxx-xxxx-xxxx",
-    // Penanda "dari website" membantu menghitung leads (PRD bagian 9).
-    whatsappMessage: "Halo One-I, saya lihat dari website dan ingin konsultasi.",
     email: "xxxx@example.com",
     address: "xxxx",
     instagram: "https://instagram.com/",
@@ -23,22 +25,16 @@ export const site = {
   designedBy: "xxxx",
 } as const;
 
-export const nav = [
-  { label: "Tentang", href: "#tentang" },
-  { label: "Masalah", href: "#masalah" },
-  { label: "Layanan", href: "#layanan" },
-  { label: "Cara Kerja", href: "#cara-kerja" },
-] as const;
+// Anchor menu navbar; labelnya di kamus (nav.links). `navMore` = isi dropdown "Lainnya"
+// (ditambah link WhatsApp). Footer kolom Navigasi memakai `nav`.
+export const nav = ["tentang", "masalah", "layanan", "cara-kerja"] as const;
+export const navMore = ["kenapa", "testimoni"] as const;
+export type NavAnchor = (typeof nav)[number] | (typeof navMore)[number];
 
-// Isi dropdown "Lainnya" di navbar (ditambah link WhatsApp dari whatsappLink()).
-export const navMore = [
-  { label: "Kenapa One-I?", href: "#kenapa" },
-  { label: "Testimoni", href: "#testimoni" },
-] as const;
+// Tombol "Contact Us" di navbar scroll ke footer.
+export const contactHref = "#kontak";
 
-// Ditampilkan sebagai tombol di navbar, tetap scroll ke section Contact Us.
-export const contactNav = { label: "Contact Us", href: "#kontak" } as const;
-
-export function whatsappLink(message: string = site.contact.whatsappMessage) {
+// Pesan default berbeda per bahasa (kamus whatsapp.message).
+export function whatsappLink(message: string) {
   return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(message)}`;
 }

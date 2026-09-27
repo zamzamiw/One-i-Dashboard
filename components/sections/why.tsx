@@ -1,20 +1,17 @@
 import type { LucideIcon } from "lucide-react";
 import { Activity, ChartColumn, Handshake, SlidersHorizontal } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.7: empat poin singkat, ditampilkan apa adanya (tanpa kalimat penjelasan).
-const points: { icon: LucideIcon; text: string }[] = [
-  { icon: Activity, text: "Pemantauan real-time" },
-  { icon: ChartColumn, text: "Insight berbasis data" },
-  { icon: SlidersHorizontal, text: "Disesuaikan dengan bisnis Anda" },
-  { icon: Handshake, text: "Didampingi tim lokal" },
-];
+const icons: LucideIcon[] = [Activity, ChartColumn, SlidersHorizontal, Handshake];
 
-export function Why() {
+export function Why({ t }: { t: Dictionary["why"] }) {
+  const points = t.points.map((text, index) => ({ text, icon: icons[index] }));
   return (
     <section id="kenapa" className="bg-brand-surface py-20 sm:py-28">
       <div className="px-page">
-        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">Kenapa One-I?</h2>
+        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">{t.title}</h2>
 
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-6">
           {points.map(({ icon: Icon, text }, index) => (

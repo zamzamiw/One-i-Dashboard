@@ -23,7 +23,7 @@ const stops = [
 
 // `initial` sengaja selalu sama di server dan browser (mencegah hydration mismatch);
 // prefers-reduced-motion cukup membuat semua transisi instan dan mematikan denyut.
-export function RouteChart() {
+export function RouteChart({ title }: { title: string }) {
   const reduceMotion = useReducedMotion();
   const timing = (transition: Transition): Transition => (reduceMotion ? { duration: 0 } : transition);
 
@@ -36,9 +36,7 @@ export function RouteChart() {
           aria-labelledby="route-chart-title"
           className="block h-auto w-full"
         >
-          <title id="route-chart-title">
-            Grafik rute pertumbuhan: landai di tahap Track, naik di Perform, lalu melesat di Grow
-          </title>
+          <title id="route-chart-title">{title}</title>
           <defs>
             <linearGradient id="route-chart-fill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" style={{ stopColor: "var(--brand-blue)", stopOpacity: 0.22 }} />

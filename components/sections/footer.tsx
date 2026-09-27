@@ -1,6 +1,7 @@
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { nav, site, whatsappLink } from "@/lib/site";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { nav, site } from "@/lib/site";
 
 // PRD 5.9 + FR-2: tanpa form, empat kanal kontak yang bisa langsung diklik
 // (kolom Kontak + Media Sosial = grid 2 kolom). Tata letak mengikuti referensi dari
@@ -14,36 +15,51 @@ const YEAR = new Date().getFullYear();
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
-const columns: { title: string; links: FooterLink[]; note?: string }[] = [
-  { title: "Navigasi", links: [{ label: "Beranda", href: "#hero" }, ...nav] },
-  {
-    title: "Kontak",
-    links: [
-      { label: site.contact.email, href: `mailto:${site.contact.email}` },
-      { label: site.contact.whatsappDisplay, href: whatsappLink(), external: true },
-    ],
-    note: site.contact.address,
-  },
-  {
-    title: "Media Sosial",
-    links: [
-      { label: "Instagram", href: site.contact.instagram, external: true },
-      { label: "Facebook", href: site.contact.facebook, external: true },
-    ],
-  },
-];
+export function Footer({
+  t,
+  nav: navLabels,
+  description,
+  newTab,
+  whatsappHref,
+}: {
+  t: Dictionary["footer"];
+  nav: Dictionary["nav"]["links"];
+  description: string;
+  newTab: string;
+  whatsappHref: string;
+}) {
+  const columns: { title: string; links: FooterLink[]; note?: string }[] = [
+    {
+      title: t.navigation,
+      links: [{ label: t.home, href: "#hero" }, ...nav.map((anchor) => ({ label: navLabels[anchor], href: `#${anchor}` }))],
+    },
+    {
+      title: t.contact,
+      links: [
+        { label: site.contact.email, href: `mailto:${site.contact.email}` },
+        { label: site.contact.whatsappDisplay, href: whatsappHref, external: true },
+      ],
+      note: site.contact.address,
+    },
+    {
+      title: t.social,
+      links: [
+        { label: "Instagram", href: site.contact.instagram, external: true },
+        { label: "Facebook", href: site.contact.facebook, external: true },
+      ],
+    },
+  ];
 
-export function Footer() {
   // overflow-hidden: ruang descent font wordmark raksasa tidak boleh menambah tinggi halaman di bawah footer.
   return (
     <footer id="kontak" className="overflow-hidden bg-brand-blue text-white">
       <div className="px-page pt-16 pb-24 sm:pt-20 sm:pb-10">
-        <h2 className="sr-only">Contact Us</h2>
+        <h2 className="sr-only">{t.heading}</h2>
 
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
           <div>
             <Logo inverse />
-            <p className="mt-6 max-w-xs leading-relaxed text-white/90">{site.description}</p>
+            <p className="mt-6 max-w-xs leading-relaxed text-white/90">{description}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
@@ -61,7 +77,7 @@ export function Footer() {
                         className="[overflow-wrap:anywhere] underline-offset-4 hover:underline focus-visible:outline-white"
                       >
                         {link.label}
-                        {link.external && <span className="sr-only"> (membuka tab baru)</span>}
+                        {link.external && <span className="sr-only"> {newTab}</span>}
                       </a>
                     </li>
                   ))}
@@ -87,7 +103,7 @@ export function Footer() {
               © {YEAR} {site.name} · {site.legalName}
             </p>
             <p>
-              Designed by <span className="font-medium text-white">{site.designedBy}</span>
+              {t.designedBy} <span className="font-medium text-white">{site.designedBy}</span>
             </p>
           </div>
           {/* Jarak kanan supaya tidak tertutup tombol WhatsApp melayang. */}
@@ -95,7 +111,7 @@ export function Footer() {
             href="#hero"
             className="inline-flex items-center gap-2 self-start text-xs font-semibold tracking-[0.15em] text-white uppercase hover:underline focus-visible:outline-white sm:mr-20 sm:self-auto"
           >
-            Kembali ke atas
+            {t.backToTop}
             <ArrowUp aria-hidden="true" className="size-4" />
           </a>
         </div>

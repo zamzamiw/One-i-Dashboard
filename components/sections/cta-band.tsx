@@ -1,12 +1,12 @@
 import { Reveal } from "@/components/reveal";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { whatsappLink } from "@/lib/site";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.8 + FR-1: banner navy, tombol langsung membuka chat WhatsApp One-I
 // (pesan default terisi otomatis) di tab baru.
 const route = "M40 290 C90 285 110 275 150 270 C220 262 270 250 330 230 C420 200 480 140 550 60";
 
-export function CtaBand() {
+export function CtaBand({ t, whatsappHref }: { t: Dictionary["cta"]; whatsappHref: string }) {
   return (
     <section id="hubungi" className="px-page py-20 sm:py-24">
       <div className="relative overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20 xl:py-28">
@@ -26,18 +26,18 @@ export function CtaBand() {
 
         <Reveal className="relative">
           <h2 className="text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl 2xl:text-5xl">
-            Siap membuat tim sales Anda lebih terpantau?
+            {t.title}
           </h2>
-          <p className="mt-4 text-lg text-white/75">Diskusikan kebutuhan distribusi Anda dengan One-I.</p>
+          <p className="mt-4 text-lg text-white/75">{t.subtitle}</p>
           <a
-            href={whatsappLink()}
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex h-12 items-center gap-2.5 rounded-lg bg-brand-blue px-6 font-semibold text-white transition hover:brightness-110 focus-visible:outline-white"
           >
             <WhatsAppIcon className="size-5" />
-            Hubungi Kami Sekarang
-            <span className="sr-only">(membuka WhatsApp di tab baru)</span>
+            {t.button}
+            <span className="sr-only"> {t.newTab}</span>
           </a>
         </Reveal>
       </div>

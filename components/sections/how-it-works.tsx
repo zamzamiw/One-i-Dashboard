@@ -1,20 +1,16 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.6 (dulu "Cara Kerja"): tiga langkah singkat tanpa sub-teks.
 // Horizontal di layar sm ke atas, vertikal di HP, dihubungkan garis rute putus-putus.
-const steps = [
-  "Konsultasi kebutuhan",
-  "Implementasi sistem",
-  "Monitoring & pengembangan berkelanjutan",
-];
-
-export function HowItWorks() {
+export function HowItWorks({ t }: { t: Dictionary["howItWorks"] }) {
+  const { steps } = t;
   return (
     <section id="cara-kerja" className="py-20 sm:py-28">
       <div className="px-page">
         <h2 className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
-          Bagaimana Kami Bisa Membantu?
+          {t.title}
         </h2>
 
         <ol role="list" className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">

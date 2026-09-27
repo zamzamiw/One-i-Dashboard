@@ -5,18 +5,18 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { LetterSwap } from "@/components/ui/letter-swap";
-import { contactNav, nav, navMore, site, whatsappLink } from "@/lib/site";
+import { localeHref, localeNames, locales, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { contactHref, nav, navMore, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 // Gaya mengikuti referensi dari pemilik project: menu huruf kapital font mono (Space Mono),
 // link desktop tersusun dalam kolom 3 baris, dropdown "Lainnya" dengan kotak panah, dan
 // tombol Contact Us biru bersudut tajam. Di bawah lg (1024px) diganti menu hamburger.
 // Semua teks menu memakai LetterSwap: huruf bergulir acak saat kursor masuk.
+// Pilihan bahasa ID / EN tampil di semua ukuran layar (di HP: di samping tombol menu).
 
 type Item = { label: string; href: string; external?: boolean };
-
-const moreItems: Item[] = [...navMore, { label: "WhatsApp", href: whatsappLink(), external: true }];
-const mobileItems: Item[] = [...nav, ...moreItems];
 
 const labelClass = "font-mono text-[0.8125rem] uppercase tracking-[0.06em]";
 const ctaClass = cn(
@@ -38,10 +38,12 @@ function ArrowBox({ external }: { external?: boolean }) {
 
 function MenuLink({
   item,
+  newTab,
   onClick,
   className,
 }: {
   item: Item;
+  newTab: string;
   onClick: (event: MouseEvent<HTMLAnchorElement>) => void;
   className?: string;
 }) {
@@ -54,14 +56,63 @@ function MenuLink({
     >
       <span>
         <LetterSwap label={item.label} />
-        {item.external && <span className="sr-only"> (membuka di tab baru)</span>}
+        {item.external && <span className="sr-only"> {newTab}</span>}
       </span>
       <ArrowBox external={item.external} />
     </a>
   );
 }
 
-export function Navbar() {
+// Link ke versi bahasa lain (halaman penuh dimuat ulang, mulai dari atas).
+function LanguageSwitcher({ locale, label }: { locale: Locale; label: string }) {
+  return (
+    <div role="group" aria-label={label} className={cn(labelClass, "flex items-center")}>
+      {locales.map((option, index) => (
+        <span key={option} className="flex items-center">
+          {index > 0 && (
+            <span aria-hidden="true" className="text-muted-foreground">
+              /
+            </span>
+          )}
+          <a
+            href={localeHref(option)}
+            hrefLang={option}
+            lang={option}
+            aria-current={option === locale ? "true" : undefined}
+            className={cn(
+              "relative inline-flex h-11 items-center px-1.5 transition-colors hover:text-brand-blue",
+              // Garis penanda lewat ::after: text-decoration tidak sampai ke huruf LetterSwap (inline-flex).
+              option === locale
+                ? "text-foreground after:absolute after:inset-x-1.5 after:bottom-2 after:h-0.5 after:bg-brand-blue"
+                : "text-muted-foreground",
+            )}
+          >
+            <LetterSwap label={localeNames[option].short} />
+            <span className="sr-only">{localeNames[option].full}</span>
+          </a>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function Navbar({
+  t,
+  newTab,
+  locale,
+  whatsappHref,
+}: {
+  t: Dictionary["nav"];
+  newTab: string;
+  locale: Locale;
+  whatsappHref: string;
+}) {
+  const navItems: Item[] = nav.map((anchor) => ({ label: t.links[anchor], href: `#${anchor}` }));
+  const moreItems: Item[] = [
+    ...navMore.map((anchor) => ({ label: t.links[anchor], href: `#${anchor}` })),
+    { label: t.whatsapp, href: whatsappHref, external: true },
+  ];
+  const mobileItems = [...navItems, ...moreItems];
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLLIElement>(null);
@@ -120,12 +171,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur">
       <nav
-        aria-label="Navigasi utama"
+        aria-label={t.ariaLabel}
         className="flex h-(--nav-h) items-center justify-between gap-8 px-page"
       >
         <a
           href="#hero"
-          aria-label={`${site.name}, kembali ke atas`}
+          aria-label={`${site.name}, ${t.home}`}
           onClick={(event) => {
             closeMore();
             if (open) navigateMobile(event, "#hero");
@@ -134,10 +185,10 @@ export function Navbar() {
           <Logo tagline={false} />
         </a>
 
-        <div className="hidden items-center gap-12 lg:flex xl:gap-20">
+        <div className="flex items-center gap-2 lg:gap-12 xl:gap-20">
           {/* Satu daftar, dialirkan per kolom 3 baris: urutan baca tetap Tentang → Lainnya. */}
-          <ul className="grid grid-flow-col grid-rows-3 gap-x-12 xl:gap-x-16">
-            {nav.map((item) => (
+          <ul className="hidden grid-flow-col grid-rows-3 gap-x-12 lg:grid xl:gap-x-16">
+            {navItems.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
@@ -166,7 +217,7 @@ export function Navbar() {
                   moreOpen && "text-brand-blue",
                 )}
               >
-                <LetterSwap label="Lainnya" />
+                <LetterSwap label={t.more} />
                 <ChevronDown
                   aria-hidden="true"
                   className={cn("size-3.5 transition-transform motion-reduce:transition-none", moreOpen && "rotate-180")}
@@ -188,6 +239,7 @@ export function Navbar() {
                         <li key={item.href}>
                           <MenuLink
                             item={item}
+                            newTab={newTab}
                             onClick={closeMore}
                             className="h-12 px-4 hover:bg-brand-surface hover:text-brand-blue"
                           />
@@ -200,25 +252,27 @@ export function Navbar() {
             </li>
           </ul>
 
-          <a href={contactNav.href} className={ctaClass}>
-            <LetterSwap label={contactNav.label} />
-            <ArrowUpRight
-              aria-hidden="true"
-              className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
-            />
-          </a>
+          <div className="flex items-center gap-2 lg:gap-6">
+            <LanguageSwitcher locale={locale} label={t.language} />
+            <a href={contactHref} className={cn(ctaClass, "hidden lg:inline-flex")}>
+              <LetterSwap label={t.contact} />
+              <ArrowUpRight
+                aria-hidden="true"
+                className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+              />
+            </a>
+            <button
+              type="button"
+              className="-mr-2 inline-flex size-11 items-center justify-center lg:hidden"
+              aria-expanded={open}
+              aria-controls="menu-mobile"
+              aria-label={open ? t.closeMenu : t.openMenu}
+              onClick={() => setOpen((value) => !value)}
+            >
+              {open ? <X aria-hidden="true" className="size-6" /> : <Menu aria-hidden="true" className="size-6" />}
+            </button>
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="-mr-2 inline-flex size-11 items-center justify-center lg:hidden"
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          aria-label={open ? "Tutup menu" : "Buka menu"}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? <X aria-hidden="true" className="size-6" /> : <Menu aria-hidden="true" className="size-6" />}
-        </button>
       </nav>
 
       <AnimatePresence initial={false} onExitComplete={scrollToPending}>
@@ -237,6 +291,7 @@ export function Navbar() {
                   <li key={item.href}>
                     <MenuLink
                       item={item}
+                      newTab={newTab}
                       onClick={(event) => navigateMobile(event, item.href)}
                       className="h-12 hover:text-brand-blue"
                     />
@@ -244,11 +299,11 @@ export function Navbar() {
                 ))}
               </ul>
               <a
-                href={contactNav.href}
-                onClick={(event) => navigateMobile(event, contactNav.href)}
+                href={contactHref}
+                onClick={(event) => navigateMobile(event, contactHref)}
                 className={cn(ctaClass, "mt-4 w-full")}
               >
-                <LetterSwap label={contactNav.label} />
+                <LetterSwap label={t.contact} />
                 <ArrowUpRight aria-hidden="true" className="size-4" />
               </a>
             </div>

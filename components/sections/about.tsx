@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/reveal";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.3, konten rata tengah. Arti nama mengikuti pemilik project
 // (singkatan Optimized Network Engagement Indonesia), menggantikan
@@ -10,17 +11,14 @@ const acronym = [
   { letter: "I", word: "Indonesia" },
 ];
 
-export function About() {
+export function About({ t }: { t: Dictionary["about"] }) {
   return (
     <section id="tentang" className="bg-brand-surface py-20 sm:py-28">
       <div className="px-page text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">Tentang One-I</h2>
-        <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed sm:text-xl">
-          One-I adalah platform digital penyedia sistem informasi penjualan untuk distributor.
-          Membantu mengubah data lapangan yang rumit menjadi insight yang mudah dipahami.
-        </p>
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl 2xl:text-5xl">{t.title}</h2>
+        <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed sm:text-xl">{t.intro}</p>
 
-        <p className="mt-12 text-sm font-medium text-muted-foreground">One-I merupakan singkatan dari</p>
+        <p className="mt-12 text-sm font-medium text-muted-foreground">{t.acronymLabel}</p>
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:gap-6">
           {acronym.map((item, index) => (
             <li key={item.letter}>
@@ -34,14 +32,7 @@ export function About() {
           ))}
         </ul>
 
-        {/* TODO: konfirmasi copy. Disusun dari ringkasan produk (PRD 1) dan kalimat manfaat PRD 5.3. */}
-        <p className="mx-auto mt-12 max-w-3xl leading-relaxed text-muted-foreground sm:text-lg">
-          Kami membangun sistem informasi terintegrasi yang membantu distributor mengelola, memantau,
-          dan mengembangkan seluruh aktivitas penjualan — dari lapangan hingga ke meja manajemen.
-          Lacak penjualan, pantau tim, dan analisis profit margin secara{" "}
-          <span className="whitespace-nowrap">real-time</span>, dengan sistem yang dapat disesuaikan
-          dengan bisnis Anda.
-        </p>
+        <p className="mx-auto mt-12 max-w-3xl leading-relaxed text-muted-foreground sm:text-lg">{t.body}</p>
       </div>
     </section>
   );
