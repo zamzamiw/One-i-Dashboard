@@ -15,7 +15,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - `components/sections/` — satu section = satu file.
 - `lib/site.ts` — nama, tagline, menu, data kontak, dan `whatsappLink()`. Semua data kontak diambil dari sini, jangan di-hardcode di komponen.
 - ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
-- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll), `components/ui/letter-swap.tsx` (huruf bergulir acak saat kursor masuk ke link/tombol induknya).
+- Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll), `components/ui/letter-swap.tsx` (huruf bergulir acak saat kursor masuk ke link/tombol induknya), `components/ui/story-scroll.tsx` (`FlowArt` + `FlowSection`: panel bertumpuk, panel berikutnya naik sambil berputar 30° → 0°).
 - `components/ui/` — tempat komponen gaya shadcn/21st.dev. `hooks/` — custom hooks (alias `@/hooks`, sesuai components.json).
 
 ## Brand — jangan diganti
@@ -37,20 +37,21 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 ## Keputusan pemilik project (mengubah/melengkapi PRD)
 - Tombol WhatsApp melayang di pojok kanan bawah (`components/whatsapp-float.tsx`), dan menu "Contact Us" di navbar tampil sebagai tombol biru (tetap scroll ke `#kontak`). Hero tetap tanpa tombol CTA.
 - Navbar mengikuti referensi desain pemilik project (gaya Checkpoint Research): menu huruf kapital `font-mono`; di desktop (≥lg) link tersusun dalam kolom 3 baris (Tentang, Masalah, Layanan | Cara Kerja, Lainnya); dropdown "Lainnya" (Kenapa One-I?, WhatsApp) dengan kotak panah bergaris; tombol "Contact Us ↗" biru bersudut tajam. Di bawah lg: menu hamburger dengan gaya yang sama. Semua teks menu (termasuk Lainnya, isi dropdown, dan Contact Us) memakai animasi random letter swap (`LetterSwap`): hanya mouse, mati untuk prefers-reduced-motion. Data menu: `nav` + `navMore` di lib/site.ts. Link menu HP baru scroll setelah menu selesai menutup (kalau bersamaan, smooth-scroll terhenti).
+- Section Masalah (`components/sections/problems.tsx`) memakai efek story scroll dari 21st.dev, ditulis ulang dengan motion + CSS sticky (GSAP TIDAK dipasang): panel pembuka (judul + deskripsi, tanpa latar) lalu 5 panel masalah berwarna bergantian navy / blue / surface / blue / navy, masing-masing setinggi layar di bawah navbar. Panel tertahan di bawah navbar (`top: var(--nav-h)`). Reduced motion: panel tetap bertumpuk tanpa rotasi. Section ini sekitar 5,4 layar scroll.
 - Label menu "Cara Kerja"; judul section tetap "Bagaimana Kami Bisa Membantu?".
 - Nama brand ditulis "One-I" di seluruh halaman.
 - Logo resmi: `components/logo.tsx` (navbar: ikon + nama saja lewat `tagline={false}`; tagline TRACK · PERFORM · GROW hanya di footer), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
 - Arti nama: One-I = singkatan Optimized Network Engagement Indonesia (menggantikan penjelasan "One" + empat "I" di PRD 5.3). Ringkasan produk PRD bagian 1 kalimat kedua ("Landing page ini menjadi etalase...") adalah catatan internal, jangan ditampilkan.
 - Footer (`components/sections/footer.tsx`, `#kontak`) mengikuti referensi desain dari pemilik project: logo + nama + tagline kiri atas, kolom Navigasi / Kontak / Media Sosial, wordmark "One-I" raksasa selebar kontainer, baris copyright + "Designed by" + "Kembali ke atas". Latar `brand-blue`. Di atas latar biru: logo pakai `<Logo inverse />`, teks sekunder minimal `text-white/90` (white/80 ke bawah gagal kontras AA).
 - Crosshair kursor global (`components/cursor-crosshair.tsx`, dipasang di `app/layout.tsx` sehingga aktif di semua halaman): kursor asli TETAP tampil, garis grid horizontal + vertikal, dan tanda "+" biru mengikuti mouse, TANPA label koordinat (dihapus atas permintaan pemilik); overlay `pointer-events-none`. TANPA efek pada font (hero dan wordmark footer statis). Mati di perangkat sentuh dan untuk prefers-reduced-motion. Paket `framer-motion` tidak dipasang; pakai `motion/react`.
-- Latar grid titik interaktif (`components/ui/interactive-canvas.tsx`, dipasang di `app/page.tsx`): canvas `fixed -z-10 pointer-events-none` di belakang konten, jadi hanya terlihat di section tanpa latar (Hero, Masalah, Cara Kerja, sekitar CTA); section `bg-brand-surface` dan footer menutupinya. Titik membesar di dekat kursor; digambar ulang hanya saat mouse bergerak. Statis di perangkat sentuh dan untuk prefers-reduced-motion. Versi 21st.dev aslinya tidak dipakai mentah (menghalangi klik, 14.400 titik per frame, salah koordinat setelah scroll).
+- Latar grid titik interaktif (`components/ui/interactive-canvas.tsx`, dipasang di `app/page.tsx`): canvas `fixed -z-10 pointer-events-none` di belakang konten, jadi hanya terlihat di section tanpa latar (Hero, panel pembuka Masalah, Cara Kerja, sekitar CTA); section `bg-brand-surface` dan footer menutupinya. Titik membesar di dekat kursor; digambar ulang hanya saat mouse bergerak. Statis di perangkat sentuh dan untuk prefers-reduced-motion. Versi 21st.dev aslinya tidak dipakai mentah (menghalangi klik, 14.400 titik per frame, salah koordinat setelah scroll).
 - Biru brand #2552FC menggantikan #3B5BFE di PRD bagian 6, dipakai untuk logo, tombol, dan semua aksen biru.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)
 - Data kontak asli: nomor WhatsApp, email, alamat, link Instagram & Facebook, dan nama "Designed by" (semua placeholder "xxxx" di lib/site.ts).
 - Konfirmasi copy paragraf 2 section Tentang (draft di components/sections/about.tsx).
 - Konfirmasi deskripsi section Masalah (draft di components/sections/problems.tsx).
-- Teks kartu Masalah rata kiri, bukan justify seperti PRD 5.4 (usulan Claude supaya tidak ada spasi renggang di HP; belum dikonfirmasi pemilik).
+- Judul singkat tiap panel Masalah ("Tim sales tak terpantau", dst.; draft Claude, PRD 5.4 hanya berisi kalimatnya).
 
 ## Windows (kalau dijalankan di laptop pemilik)
 - Jalankan Python dengan `python`, bukan `python3`.
