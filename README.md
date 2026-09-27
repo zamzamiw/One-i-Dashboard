@@ -30,6 +30,7 @@ Buka http://localhost:3000.
 | `app/globals.css` | Token warna brand |
 | `components/sections/` | Satu file per section |
 | `components/cursor-crosshair.tsx` | Crosshair kursor di seluruh situs (dipasang di `app/layout.tsx`) |
+| `components/ui/interactive-canvas.tsx` | Latar grid titik interaktif di belakang halaman |
 | `lib/site.ts` | Nama, menu, **data kontak, nomor WhatsApp, "Designed by"** (masih placeholder `xxxx`) |
 | `.claude/skills/ui-ux-pro-max/` | Skill desain untuk Claude Code |
 

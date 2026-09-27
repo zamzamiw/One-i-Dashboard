@@ -7,12 +7,15 @@ import { HowItWorks } from "@/components/sections/how-it-works";
 import { Navbar } from "@/components/sections/navbar";
 import { Problems } from "@/components/sections/problems";
 import { Why } from "@/components/sections/why";
+import { InteractiveCanvas } from "@/components/ui/interactive-canvas";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 
 // Urutan section sesuai PRD bagian 4.
 export default function Home() {
   return (
     <>
+      {/* Latar grid titik interaktif, tampil di section berlatar putih (di belakang konten). */}
+      <InteractiveCanvas />
       <Navbar />
       <main>
         <Hero />
