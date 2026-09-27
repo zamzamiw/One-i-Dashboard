@@ -16,7 +16,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - `lib/site.ts` — nama, tagline, menu, data kontak, dan `whatsappLink()`. Semua data kontak diambil dari sini, jangan di-hardcode di komponen.
 - ID anchor: `#hero`, `#tentang`, `#masalah`, `#layanan`, `#cara-kerja`, `#kenapa`, `#hubungi`, `#kontak`.
 - Komponen pakai ulang: `components/reveal.tsx` (fade-up saat masuk layar), `components/route-steps.tsx` (daftar bernomor + garis "rute" yang terisi mengikuti scroll).
-- `components/ui/` — komponen gaya shadcn/21st.dev (mis. `variable-font-and-cursor.tsx`). `hooks/` — custom hooks (alias `@/hooks`, sesuai components.json).
+- `components/ui/` — tempat komponen gaya shadcn/21st.dev. `hooks/` — custom hooks (alias `@/hooks`, sesuai components.json).
 
 ## Brand — jangan diganti
 - Token Tailwind: `brand-navy` #0F172A (teks judul, navbar, CTA band), `brand-blue` #2552FC (aksen, CTA, logo — diganti pemilik project dari #3B5BFE di PRD), `brand-amber` #FF8A3D (aksen sekunder), `brand-surface` #EEF1FB (background card). Didefinisikan di app/globals.css.
@@ -40,7 +40,7 @@ Spesifikasi lengkap ada di @docs/PRD.md. PRD adalah sumber kebenaran untuk isi, 
 - Logo resmi: `components/logo.tsx` (navbar), `app/icon.svg` + `favicon.ico` + `apple-icon.png` (ikon browser/HP). Sumber bentuk: `docs/brand/logo-one-i-original.png`; warnanya diganti jadi `brand-blue` polos (tanpa gradien), batang tengah `#D8E0FE`.
 - Arti nama: One-I = singkatan Optimized Network Engagement Indonesia (menggantikan penjelasan "One" + empat "I" di PRD 5.3). Ringkasan produk PRD bagian 1 kalimat kedua ("Landing page ini menjadi etalase...") adalah catatan internal, jangan ditampilkan.
 - Footer (`components/sections/footer.tsx`, `#kontak`) mengikuti referensi desain dari pemilik project: logo + nama + tagline kiri atas, kolom Navigasi / Kontak / Media Sosial, wordmark "One-I" raksasa selebar kontainer, baris copyright + "Designed by" + "Kembali ke atas". Latar `brand-blue`. Di atas latar biru: logo pakai `<Logo inverse />`, teks sekunder minimal `text-white/90` (white/80 ke bawah gagal kontras AA).
-- Efek kursor (21st.dev `variable-font-and-cursor`) HANYA di wordmark footer (`components/footer-wordmark.tsx`): ketebalan huruf mengikuti posisi mouse + crosshair. Jangan dipasang di seluruh halaman — `cursor-none` menghilangkan kursor tangan di atas tombol/link. Efek mati di perangkat sentuh dan untuk prefers-reduced-motion. Paket `framer-motion` tidak dipasang; pakai `motion/react`.
+- Crosshair kursor global (`components/cursor-crosshair.tsx`, dipasang di `app/layout.tsx` sehingga aktif di semua halaman): kursor asli TETAP tampil, garis grid horizontal + vertikal, tanda "+" biru, dan label koordinat mengikuti mouse; overlay `pointer-events-none`. TANPA efek pada font (hero dan wordmark footer statis). Mati di perangkat sentuh dan untuk prefers-reduced-motion. Paket `framer-motion` tidak dipasang; pakai `motion/react`.
 - Biru brand #2552FC menggantikan #3B5BFE di PRD bagian 6, dipakai untuk logo, tombol, dan semua aksen biru.
 
 ## Keputusan yang masih terbuka (tanya pemilik project, jangan diasumsikan)

@@ -1,5 +1,4 @@
 import { ArrowUp } from "lucide-react";
-import { FooterWordmark } from "@/components/footer-wordmark";
 import { Logo } from "@/components/logo";
 import { nav, site, whatsappLink } from "@/lib/site";
 
@@ -8,6 +7,9 @@ import { nav, site, whatsappLink } from "@/lib/site";
 // pemilik project (wordmark raksasa), dengan latar brand-blue agar konsisten.
 // Teks sekunder minimal white/90: kontras 4.9:1 di atas #2552FC (white/70 hanya 3.6:1).
 
+// Rasio lebar/tinggi-font "One-I" (Space Grotesk bold, tracking-tighter), diukur di
+// browser, supaya wordmark pas selebar kontainer lewat unit cqw.
+const WORDMARK_RATIO = 2.33;
 const YEAR = new Date().getFullYear();
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -69,8 +71,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 sm:mt-24">
-          <FooterWordmark />
+        <div aria-hidden="true" className="@container mt-16 select-none sm:mt-24">
+          <p
+            className="font-heading leading-[0.78] font-bold tracking-tighter whitespace-nowrap"
+            style={{ fontSize: `calc(100cqw / ${WORDMARK_RATIO})` }}
+          >
+            {site.name}
+          </p>
         </div>
 
         <div className="mt-8 flex flex-col gap-4 border-t border-white/30 pt-6 text-sm text-white/90 sm:flex-row sm:items-center sm:justify-between">
