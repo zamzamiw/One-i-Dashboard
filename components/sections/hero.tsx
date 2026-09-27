@@ -4,7 +4,7 @@ import { RouteChart } from "@/components/route-chart";
 // Headline sengaja tidak dianimasikan: ia elemen terbesar di layar pertama (LCP).
 export function Hero() {
   return (
-    <section id="hero" className="flex items-center overflow-hidden lg:min-h-[calc(100svh-4rem)]">
+    <section id="hero" className="flex items-center overflow-hidden lg:min-h-[calc(100svh-var(--nav-h))]">
       <div className="grid w-full items-center gap-12 px-page py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24 xl:gap-24">
         <div>
           <h1 className="text-4xl leading-[1.08] font-bold tracking-tight text-balance sm:text-5xl xl:text-6xl 2xl:text-7xl">

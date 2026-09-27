@@ -21,6 +21,15 @@
   --border: #dde3f3;
   --ring: var(--brand-blue);
   --radius: 0.75rem;
+
+  /* Tinggi navbar sticky: 4rem di HP/tablet, 5.75rem di desktop (menu bertumpuk 3 baris). */
+  --nav-h: 4rem;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --nav-h: 5.75rem;
+  }
 }
 
 @theme inline {
@@ -45,6 +54,7 @@
 
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
 }
 
 /*
@@ -79,9 +89,9 @@
     }
   }
 
-  /* Anchor dari navbar tidak tertutup navbar sticky (tinggi 4rem). */
+  /* Anchor dari navbar tidak tertutup navbar sticky. */
   html {
-    scroll-padding-top: 5rem;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
   }
 
   body {

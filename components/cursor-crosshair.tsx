@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useMotionValue, useTransform } from "motion/react";
+import { motion, useMotionValue } from "motion/react";
 
 // Crosshair yang mengikuti kursor di seluruh situs (turunan efek 21st.dev
 // variable-font-and-cursor, TANPA efek pada font). Kursor asli tetap tampil dan overlay
@@ -12,8 +12,6 @@ export function CursorCrosshair() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const opacity = useMotionValue(0);
-  const roundedX = useTransform(x, (value) => Math.round(value));
-  const roundedY = useTransform(y, (value) => Math.round(value));
 
   useEffect(() => {
     const move = (event: PointerEvent) => {
@@ -52,13 +50,6 @@ export function CursorCrosshair() {
           <path d="M9 1.5v15M1.5 9h15" stroke="white" strokeWidth="4" strokeLinecap="round" />
           <path d="M9 1.5v15M1.5 9h15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
-      </motion.div>
-      {/* Digeser 20px supaya tidak tertutup panah kursor asli. */}
-      <motion.div
-        className="absolute top-0 left-0 translate-x-5 translate-y-5 rounded bg-brand-navy px-1.5 py-0.5 font-mono text-xs whitespace-nowrap text-white tabular-nums ring-1 ring-white/20"
-        style={{ x, y }}
-      >
-        x: <motion.span>{roundedX}</motion.span> y: <motion.span>{roundedY}</motion.span>
       </motion.div>
     </motion.div>
   );

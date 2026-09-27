@@ -25,9 +25,13 @@ export const site = {
 
 export const nav = [
   { label: "Tentang", href: "#tentang" },
+  { label: "Masalah", href: "#masalah" },
   { label: "Layanan", href: "#layanan" },
   { label: "Cara Kerja", href: "#cara-kerja" },
 ] as const;
+
+// Isi dropdown "Lainnya" di navbar (ditambah link WhatsApp dari whatsappLink()).
+export const navMore = [{ label: "Kenapa One-I?", href: "#kenapa" }] as const;
 
 // Ditampilkan sebagai tombol di navbar, tetap scroll ke section Contact Us.
 export const contactNav = { label: "Contact Us", href: "#kontak" } as const;

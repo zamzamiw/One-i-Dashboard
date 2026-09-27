@@ -27,22 +27,27 @@ export function LogoMark({ className, inverse = false }: { className?: string; i
   );
 }
 
-// Tinggi ikon disamakan dengan blok nama + tagline (PRD 5.1).
-export function Logo({ inverse = false }: { inverse?: boolean }) {
+// Dengan tagline (footer): tinggi ikon disamakan dengan blok nama + tagline (PRD 5.1).
+// Navbar memakai `tagline={false}`: ikon + nama saja (keputusan pemilik project).
+export function Logo({ inverse = false, tagline = true }: { inverse?: boolean; tagline?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
       <LogoMark inverse={inverse} />
-      <span className="leading-none">
-        <span className="block font-heading text-lg font-bold tracking-tight">{site.name}</span>
-        <span
-          className={cn(
-            "mt-1 block text-[10px] font-medium tracking-[0.2em]",
-            inverse ? "text-white/90" : "text-muted-foreground",
-          )}
-        >
-          {site.tagline}
+      {tagline ? (
+        <span className="leading-none">
+          <span className="block font-heading text-lg font-bold tracking-tight">{site.name}</span>
+          <span
+            className={cn(
+              "mt-1 block text-[10px] font-medium tracking-[0.2em]",
+              inverse ? "text-white/90" : "text-muted-foreground",
+            )}
+          >
+            {site.tagline}
+          </span>
         </span>
-      </span>
+      ) : (
+        <span className="font-heading text-xl leading-none font-bold tracking-tight">{site.name}</span>
+      )}
     </span>
   );
 }
