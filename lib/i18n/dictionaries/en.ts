@@ -104,6 +104,7 @@ export const en: Dictionary = {
   },
   howItWorks: {
     title: "How Can We Help?",
+    stepLabel: "Step",
     steps: ["Needs consultation", "System implementation", "Ongoing monitoring & development"],
   },
   why: {

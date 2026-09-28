@@ -312,3 +312,48 @@ html[data-intro] .intro-loader {
     display: none;
   }
 }
+
+/*
+ * Kartu bertumpuk miring (components/ui/display-cards.tsx). --i = urutan kartu, --last = indeks
+ * kartu terakhir. HP: kolom tanpa tumpukan. ≥sm: semua kartu di satu sel grid, kartu ke-i digeser
+ * i × (--dx, --dy); kelompoknya digeser balik separuh total geseran supaya tetap di tengah.
+ * Hover/fokus: kartu naik sejauh --lift.
+ */
+.display-stack {
+  --dx: 0rem;
+  --dy: 0rem;
+  --lift: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+@media (min-width: 40rem) {
+  .display-stack {
+    --dx: 3.5rem;
+    --dy: 2.75rem;
+    --lift: 2.5rem;
+    display: grid;
+    grid-template-areas: "stack";
+    place-items: center;
+    padding-bottom: calc(var(--dy) * var(--last));
+    translate: calc(var(--dx) * var(--last) / -2) 0;
+  }
+}
+
+@media (min-width: 64rem) {
+  .display-stack {
+    --dx: 6rem;
+    --dy: 3.25rem;
+  }
+}
+
+.display-card {
+  transform: translate(calc(var(--i) * var(--dx)), calc(var(--i) * var(--dy))) skewY(-8deg);
+}
+
+.display-card:hover,
+.display-card:focus-visible {
+  transform: translate(calc(var(--i) * var(--dx)), calc(var(--i) * var(--dy) - var(--lift))) skewY(-8deg);
+}

@@ -113,6 +113,7 @@ export const id = {
   },
   howItWorks: {
     title: "Bagaimana Kami Bisa Membantu?",
+    stepLabel: "Langkah",
     steps: ["Konsultasi kebutuhan", "Implementasi sistem", "Monitoring & pengembangan berkelanjutan"],
   },
   why: {

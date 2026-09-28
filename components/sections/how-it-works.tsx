@@ -1,59 +1,30 @@
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { Rule, SectionTag, type SectionTagData } from "@/components/receipt";
-import { Reveal } from "@/components/reveal";
+import { MessagesSquare, Settings2, TrendingUp } from "lucide-react";
+import { SectionTag, type SectionTagData } from "@/components/receipt";
+import { DisplayCards } from "@/components/ui/display-cards";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
-// PRD 5.6 (dulu "Cara Kerja"): tiga langkah singkat tanpa sub-teks.
-// Horizontal di layar sm ke atas, vertikal di HP, dihubungkan garis rute berpanah.
+// PRD 5.6 (dulu "Cara Kerja"): tiga langkah singkat tanpa sub-teks, ditampilkan sebagai kartu
+// bertumpuk miring (display cards, keputusan pemilik project). Langkah terakhir paling depan.
+const icons = [MessagesSquare, Settings2, TrendingUp];
+
 export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: SectionTagData }) {
-  const { steps } = t;
+  const cards = t.steps.map((step, index) => {
+    const Icon = icons[index];
+    return {
+      icon: <Icon className="size-4" />,
+      title: `${t.stepLabel} ${String(index + 1).padStart(2, "0")}`,
+      description: step,
+    };
+  });
+
   return (
-    <section id="cara-kerja" className="py-20 sm:py-28">
+    <section id="cara-kerja" className="overflow-hidden py-20 sm:py-28">
       <div className="px-page">
         <SectionTag {...tag} className="mb-10 sm:mb-14" />
         <h2 className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl 2xl:text-5xl">
           {t.title}
         </h2>
-
-        <ol role="list" className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
-          {steps.map((step, index) => {
-            const last = index === steps.length - 1;
-            return (
-              <li key={step}>
-                <Reveal delay={index * 0.12} className="relative flex items-start gap-5 sm:flex-col sm:items-center sm:text-center">
-                  <span className="relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full bg-brand-blue font-heading text-lg font-bold text-white">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div className="pt-3.5 sm:pt-0">
-                    <p className="text-lg font-semibold">{step}</p>
-                    <Rule className="mt-2 w-16 text-brand-blue/40 sm:mx-auto" />
-                  </div>
-
-                  {!last && (
-                    <>
-                      {/* HP: dari bawah lingkaran ke lingkaran berikutnya (celah gap-10). */}
-                      <span
-                        aria-hidden="true"
-                        className="absolute top-16 -bottom-9 left-7 flex -translate-x-1/2 flex-col items-center sm:hidden"
-                      >
-                        <span className="w-0 flex-1 border-l-2 border-brand-blue/30" />
-                        <ChevronDown className="-mt-1.5 size-4 text-brand-blue/70" />
-                      </span>
-                      {/* sm+: dari tepi lingkaran ini ke lingkaran di kolom berikutnya (celah gap-8). */}
-                      <span
-                        aria-hidden="true"
-                        className="absolute top-7 right-[calc(-50%+0.25rem)] left-[calc(50%+2.25rem)] hidden -translate-y-1/2 items-center sm:flex"
-                      >
-                        <span className="h-0 flex-1 border-t-2 border-brand-blue/30" />
-                        <ChevronRight className="-ml-1.5 size-4 text-brand-blue/70" />
-                      </span>
-                    </>
-                  )}
-                </Reveal>
-              </li>
-            );
-          })}
-        </ol>
+        <DisplayCards cards={cards} className="mt-14 sm:mt-24" />
       </div>
     </section>
   );
