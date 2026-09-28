@@ -7,7 +7,8 @@ import { INTRO_KEY, REVEAL_EVENT } from "@/lib/page-reveal";
 
 // Loading saat website pertama kali dibuka (keputusan pemilik project): latar brand-blue,
 // logo One-I dengan animasi motion graphic (kotak berputar masuk, batang tumbuh seperti
-// grafik, titik jatuh memantul), tulisan "One-I", angka progres 0–100, dan garis progres.
+// grafik, titik jatuh memantul), tulisan "One-I" di tengah, angka progres 3 digit 000–100 di
+// kiri bawah, dan garis progres di dasar layar.
 // - hanya sekali per sesi; tidak tampil saat ganti bahasa (skrip di <head>, lib/page-reveal.ts)
 // - sudah menutupi halaman sejak piksel pertama (dirender server); animasi logo & huruf
 //   berjalan lewat CSS (globals.css) sehingga tidak menunggu JavaScript
@@ -40,7 +41,7 @@ const EASE_PANEL = [0.76, 0, 0.24, 1] as const;
 export function IntroLoader() {
   const [scope, animateScope] = useAnimate<HTMLDivElement>();
   const progress = useMotionValue(0);
-  const count = useTransform(progress, (value) => Math.round(value));
+  const count = useTransform(progress, (value) => String(Math.round(value)).padStart(3, "0")); // 000–100
   const barScale = useTransform(progress, [0, 100], [0, 1]);
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export function IntroLoader() {
 
   return (
     <div ref={scope} aria-hidden="true" className="intro-loader fixed inset-0 z-[80] bg-brand-blue text-white select-none">
-      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 px-page sm:gap-x-12">
+      <div className="flex items-center justify-center px-page">
         <div className="flex items-center gap-4 sm:gap-6">
           {/* Tanpa topeng: kotak yang berputar masuk tidak boleh terpotong. */}
           <span data-exit className="block">
@@ -122,13 +123,14 @@ export function IntroLoader() {
             ))}
           </p>
         </div>
-        <p className="overflow-y-clip font-mono text-5xl leading-none tabular-nums sm:text-7xl">
-          <span data-exit className="intro-count inline-flex items-baseline">
-            <motion.span className="inline-block w-[3ch] text-right">{count}</motion.span>
-            <span className="ml-1 text-2xl text-white/80 sm:text-3xl">%</span>
-          </span>
-        </p>
       </div>
+      {/* Angka progres di kiri bawah, ukurannya mengikuti lebar layar; lebar tetap 3 digit. */}
+      <p className="absolute bottom-7 left-0 overflow-y-clip px-page font-mono text-[length:clamp(3rem,8vw,7.5rem)] leading-none tabular-nums sm:bottom-10">
+        <span data-exit className="intro-count inline-flex items-baseline">
+          <motion.span className="inline-block w-[3ch]">{count}</motion.span>
+          <span className="ml-2 text-[0.3em] text-white/80">%</span>
+        </span>
+      </p>
       <div className="absolute inset-x-0 bottom-0 h-1 bg-white/20">
         <motion.div className="h-full origin-left bg-white" style={{ scaleX: barScale }} />
       </div>
