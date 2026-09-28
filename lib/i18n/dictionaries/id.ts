@@ -85,6 +85,8 @@ export const id = {
   },
   features: {
     title: "Apa yang Dikerjakan One-I",
+    // TODO: konfirmasi copy (belum ada di PRD).
+    scrollHint: "Gulir untuk melihat semua fitur",
     description:
       "One-I dirancang untuk membantu distributor menghubungkan tim lapangan dengan informasi yang dibutuhkan manajemen.",
     items: [
