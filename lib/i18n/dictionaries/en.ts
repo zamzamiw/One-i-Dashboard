@@ -49,6 +49,10 @@ export const en: Dictionary = {
       { name: "Grow", text: "Make decisions from business insights and grow with confidence." },
     ],
   },
+  techStack: {
+    eyebrow: "Built on proven technology",
+    title: "The Technology Behind One-I",
+  },
   about: {
     title: "About One-I",
     intro:

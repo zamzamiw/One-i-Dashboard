@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Navbar } from "@/components/sections/navbar";
 import { Problems } from "@/components/sections/problems";
+import { TechStack } from "@/components/sections/tech-stack";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Why } from "@/components/sections/why";
 import { InteractiveCanvas } from "@/components/ui/interactive-canvas";
@@ -15,7 +16,8 @@ import { hasLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { whatsappLink } from "@/lib/site";
 
-// Urutan section sesuai PRD bagian 4, ditambah Testimoni sebelum CTA (keputusan pemilik project).
+// Urutan section sesuai PRD bagian 4, ditambah pita Teknologi setelah hero dan Testimoni sebelum
+// CTA (keputusan pemilik project).
 // Semua teks datang dari kamus bahasa aktif (lib/i18n/dictionaries). `tag` = baris pembuka
 // gaya struk "[ 01 ] LABEL ---- +" (components/receipt.tsx), labelnya sama dengan menu navbar.
 export default async function Home({ params }: PageProps<"/[lang]">) {
@@ -31,6 +33,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Navbar t={t.nav} newTab={t.common.newTab} locale={lang} whatsappHref={whatsappHref} />
       <main>
         <Hero t={t.hero} />
+        <TechStack t={t.techStack} />
         <About t={t.about} tag={{ index: 1, label: t.nav.links.tentang }} />
         <Problems t={t.problems} tag={{ index: 2, label: t.nav.links.masalah }} />
         <Features t={t.features} tag={{ index: 3, label: t.nav.links.layanan }} />

@@ -48,6 +48,11 @@ export const id = {
       { name: "Grow", text: "Ambil keputusan dari insight bisnis untuk tumbuh lebih pasti." },
     ],
   },
+  techStack: {
+    // TODO: konfirmasi copy (belum ada di PRD).
+    eyebrow: "Dibangun dengan teknologi andal",
+    title: "Teknologi di Balik One-I",
+  },
   about: {
     title: "Tentang One-I",
     intro:
