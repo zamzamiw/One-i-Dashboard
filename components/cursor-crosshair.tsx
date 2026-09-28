@@ -1,24 +1,33 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useMotionValue } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 
 // Crosshair yang mengikuti kursor di seluruh situs (turunan efek 21st.dev
 // variable-font-and-cursor, TANPA efek pada font). Kursor asli tetap tampil dan overlay
 // tidak menangkap klik. Posisi digerakkan lewat motion value (transform, tanpa render
 // ulang React). Hanya untuk pointer presisi (mouse/trackpad); mati untuk
 // prefers-reduced-motion. Keadaan awal (tersembunyi, posisi 0) sama di server dan browser.
+// Garis dan tanda "+" mengejar kursor lewat pegas (spring) supaya geraknya halus; saat baru
+// muncul, posisinya langsung dipasang (jump) supaya tidak meluncur dari pojok layar.
+const SPRING = { stiffness: 520, damping: 42, mass: 0.45 };
+
 export function CursorCrosshair() {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const x = useSpring(0, SPRING);
+  const y = useSpring(0, SPRING);
   const opacity = useMotionValue(0);
 
   useEffect(() => {
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
+      if (opacity.get() === 0) {
+        x.jump(event.clientX);
+        y.jump(event.clientY);
+        opacity.set(1);
+        return;
+      }
       x.set(event.clientX);
       y.set(event.clientY);
-      opacity.set(1);
     };
     // Sembunyikan saat kursor keluar dari jendela browser.
     const leave = (event: PointerEvent) => {

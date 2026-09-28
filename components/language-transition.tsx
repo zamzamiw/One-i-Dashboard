@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { stagger, useAnimate } from "motion/react";
 import { site } from "@/lib/site";
 import { LANGUAGE_SWITCH_EVENT, LANGUAGE_SWITCH_KEY } from "@/lib/language-transition";
+import { REVEAL_EVENT } from "@/lib/page-reveal";
 
 // Layar transisi saat ganti bahasa (keputusan pemilik project): panel brand-blue naik dari
 // bawah, huruf "One-I" (gaya wordmark footer) muncul satu per satu, lalu halaman bahasa lain
@@ -39,6 +40,7 @@ export function LanguageTransition({ status }: { status: string }) {
       animate(panel, { y: "0%", opacity: 1 }, { duration: 0 });
       animate(letters, { y: "0%", rotate: 0 }, { duration: 0 });
       busy = false;
+      window.dispatchEvent(new Event(REVEAL_EVENT));
     };
 
     const leave = async () => {

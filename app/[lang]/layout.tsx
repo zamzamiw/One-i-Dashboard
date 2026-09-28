@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
 import { CursorCrosshair } from "@/components/cursor-crosshair";
+import { IntroLoader } from "@/components/intro-loader";
 import { LanguageTransition } from "@/components/language-transition";
 import { defaultLocale, hasLocale, localeHref, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { languageTransitionScript } from "@/lib/language-transition";
+import { introScript } from "@/lib/page-reveal";
 import { site } from "@/lib/site";
 import "../globals.css";
 
@@ -59,8 +61,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   const locale = hasLocale(lang) ? lang : defaultLocale;
-  // suppressHydrationWarning: skrip di <head> bisa memasang data-lang-switch pada <html>
-  // sebelum hidrasi (layar transisi ganti bahasa).
+  // suppressHydrationWarning: skrip di <head> bisa memasang data-lang-switch / data-intro pada
+  // <html> sebelum hidrasi (layar ganti bahasa dan loading awal).
   return (
     <html
       lang={locale}
@@ -69,11 +71,13 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: languageTransitionScript }} />
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
       </head>
       <body>
         {children}
         <CursorCrosshair />
         <LanguageTransition status={getDictionary(locale).languageTransition.status} />
+        <IntroLoader />
       </body>
     </html>
   );

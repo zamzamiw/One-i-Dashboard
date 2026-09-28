@@ -11,6 +11,7 @@ import {
   type Transition,
 } from "motion/react";
 import { Rule } from "@/components/receipt";
+import { onPageRevealed } from "@/lib/page-reveal";
 import { cn } from "@/lib/utils";
 
 // Visual hero PRD 5.2: garis "rute" landai di Track, lalu melesat naik menuju Grow.
@@ -19,7 +20,7 @@ import { cn } from "@/lib/utils";
 // lalu melesat makin cepat ke Grow dan terbang lepas ke atas sambil memudar.
 // - keadaan awal sama di server dan browser (roket di titik start, titik & jejak belum tampil)
 // - prefers-reduced-motion: tanpa roket, grafik dan semua penjelasan langsung tampil
-// - animasi hanya sekali saat halaman dibuka; denyut titik Grow sesudahnya memakai animasi CSS,
+// - animasi hanya sekali, dimulai setelah loading awal / layar ganti bahasa terbuka; denyut titik Grow sesudahnya memakai animasi CSS,
 //   jadi tidak ada JavaScript yang terus berjalan per frame
 const WIDTH = 600;
 const HEIGHT = 340;
@@ -100,32 +101,36 @@ export function RouteChart({ title, stages }: { title: string; stages: Stage[] }
     const running: { stop: () => void }[] = [];
     const run = <T,>(controls: T & { stop: () => void }) => (running.push(controls), controls);
 
-    (async () => {
-      if (reduce) {
-        await run(animate(progress, 1, { duration: 0 }));
+    // Mulai setelah loading awal / layar ganti bahasa terbuka, supaya roketnya terlihat.
+    const stopWaiting = onPageRevealed(() => {
+      (async () => {
+        if (reduce) {
+          await run(animate(progress, 1, { duration: 0 }));
+          if (!active) return;
+          setReached(stops.length);
+          setPhase("done");
+          return;
+        }
+        progress.set(0);
+        flyOff.set(0);
+        setPhase("flying");
+        await run(animate(progress, stops[0].at, { duration: 1, delay: 0.5, ease: EASE_CRUISE }));
         if (!active) return;
-        setReached(stops.length);
+        setReached(1);
+        await run(animate(progress, stops[1].at, { duration: 1, delay: 0.4, ease: EASE_CRUISE }));
+        if (!active) return;
+        setReached(2);
+        await run(animate(progress, 1, { duration: 0.9, delay: 0.4, ease: EASE_BOOST }));
+        if (!active) return;
+        setReached(3);
+        await run(animate(flyOff, 1, { duration: 0.9, ease: EASE_EXIT }));
+        if (!active) return;
         setPhase("done");
-        return;
-      }
-      progress.set(0);
-      flyOff.set(0);
-      setPhase("flying");
-      await run(animate(progress, stops[0].at, { duration: 1, delay: 0.5, ease: EASE_CRUISE }));
-      if (!active) return;
-      setReached(1);
-      await run(animate(progress, stops[1].at, { duration: 1, delay: 0.4, ease: EASE_CRUISE }));
-      if (!active) return;
-      setReached(2);
-      await run(animate(progress, 1, { duration: 0.9, delay: 0.4, ease: EASE_BOOST }));
-      if (!active) return;
-      setReached(3);
-      await run(animate(flyOff, 1, { duration: 0.9, ease: EASE_EXIT }));
-      if (!active) return;
-      setPhase("done");
-    })();
+      })();
+    });
 
     return () => {
+      stopWaiting();
       active = false;
       running.forEach((controls) => controls.stop());
     };

@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils";
 // - canvas di belakang konten (-z-10) dan pointer-events-none, jadi tidak menghalangi klik
 // - posisi mouse pakai clientX/clientY (canvas fixed), jadi tetap tepat setelah scroll
 // - jarak antar titik tetap (px) sehingga kepadatan sama di semua layar, bukan 120×120 titik
-// - semua titik digambar dalam satu path, dan hanya saat mouse bergerak (diam = tanpa beban CPU)
+// - semua titik digambar dalam satu path, dan hanya saat mouse bergerak (diam = tanpa beban CPU);
+//   posisi kursor dihaluskan (lerp) sehingga gelembung titik mengikuti dengan lembut
 // - animation frame dibatalkan saat unmount; ukuran & grid dihitung ulang saat resize
 // - di perangkat sentuh dan untuk prefers-reduced-motion: grid statis tanpa interaksi
 
@@ -48,11 +49,24 @@ export function InteractiveCanvas({
     let width = 0;
     let height = 0;
     let dots: { x: number; y: number }[] = [];
-    const mouse = { x: -9999, y: -9999 };
+    // `target` = posisi kursor sebenarnya, `mouse` = posisi yang digambar. Tiap frame `mouse`
+    // mendekati `target` sebagian (lerp), jadi gelembung titik mengikuti kursor dengan halus;
+    // frame berhenti dijadwalkan begitu keduanya praktis berimpit.
+    const OFF = -9999;
+    const target = { x: OFF, y: OFF };
+    const mouse = { x: OFF, y: OFF };
     let frame = 0;
 
     const draw = () => {
       frame = 0;
+      mouse.x += (target.x - mouse.x) * 0.22;
+      mouse.y += (target.y - mouse.y) * 0.22;
+      if (Math.abs(target.x - mouse.x) < 0.3 && Math.abs(target.y - mouse.y) < 0.3) {
+        mouse.x = target.x;
+        mouse.y = target.y;
+      } else {
+        schedule();
+      }
       ctx.clearRect(0, 0, width, height);
       const active: { x: number; y: number; r: number }[] = [];
 
@@ -107,16 +121,21 @@ export function InteractiveCanvas({
 
     const move = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
+      target.x = event.clientX;
+      target.y = event.clientY;
+      // Baru masuk jendela: langsung di posisi kursor, tidak meluncur dari luar layar.
+      if (mouse.x === OFF) {
+        mouse.x = target.x;
+        mouse.y = target.y;
+      }
       schedule();
     };
 
     // Kursor keluar dari jendela: kembalikan semua titik ke posisi diam.
     const leave = (event: PointerEvent) => {
       if (event.relatedTarget) return;
-      mouse.x = -9999;
-      mouse.y = -9999;
+      target.x = mouse.x = OFF;
+      target.y = mouse.y = OFF;
       schedule();
     };
 
