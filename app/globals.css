@@ -22,7 +22,7 @@
   --ring: var(--brand-blue);
   --radius: 0.75rem;
 
-  /* Tinggi navbar sticky: 4rem di HP/tablet, 5.75rem di desktop (menu bertumpuk 3 baris). */
+  /* Tinggi navbar sticky: 4rem di HP/tablet, 5.75rem di desktop. */
   --nav-h: 4rem;
 }
 
@@ -138,36 +138,7 @@ html[data-lang-switch] .lang-loader {
   }
 }
 
-/*
- * Elemen gaya struk belanja (components/receipt.tsx). Garis dibuat dari karakter lewat
- * ::before (bukan teks halaman) dan dipotong selebar wadah; 400 karakter cukup untuk layar 2560px.
- */
-.receipt-rule {
-  display: block;
-  /* Isi 400 karakter tidak boleh ikut menentukan lebar minimum wadah (mis. kolom grid). */
-  contain: inline-size;
-  overflow: hidden;
-  white-space: nowrap;
-  line-height: 1;
-  user-select: none;
-}
-
-.receipt-rule::before {
-  content: var(--receipt-pattern);
-}
-
-.receipt-rule-dash {
-  --receipt-pattern: "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
-}
-
-.receipt-rule-under {
-  --receipt-pattern: "________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________";
-}
-
-.receipt-rule-equal {
-  --receipt-pattern: "================================================================================================================================================================================================================================================================================================================================================================================================================";
-}
-
+/* Elemen gaya struk belanja (components/receipt.tsx). */
 /* Barcode dekoratif: pola garis tebal-tipis berulang, warnanya mengikuti currentColor. */
 .receipt-barcode {
   background: repeating-linear-gradient(

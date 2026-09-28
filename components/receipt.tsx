@@ -1,24 +1,17 @@
 import { cn } from "@/lib/utils";
 
-// Elemen dekoratif gaya struk belanja (keputusan pemilik project), dipakai di semua section:
-// garis karakter "-----" / "_____" / "=====", label dalam kurung [ ], tanda "+"
-// di sudut kartu, dan barcode. Semuanya aria-hidden (murni hiasan). Karakter garis dibuat
-// lewat CSS ::before (globals.css), jadi tidak ikut teks halaman saat disalin atau dibaca
-// mesin pencari, dan selalu terpotong rapi selebar wadahnya.
+// Elemen dekoratif gaya struk belanja (keputusan pemilik project): label dalam kurung [ ],
+// tanda "+" di sudut kartu, dan barcode. Garis pemisah dulu berupa karakter "-----"; atas
+// permintaan pemilik sekarang garis tipis biasa. Semuanya aria-hidden (murni hiasan).
 
-const patterns = {
-  dash: "receipt-rule-dash",
-  under: "receipt-rule-under",
-  equal: "receipt-rule-equal",
-} as const;
-
-export function ReceiptRule({ pattern = "dash", className }: { pattern?: keyof typeof patterns; className?: string }) {
-  return <span aria-hidden="true" className={cn("receipt-rule font-mono text-xs", patterns[pattern], className)} />;
+// Garis pemisah tipis; warnanya mengikuti warna teks (currentColor), atur lewat kelas text-*.
+export function Rule({ className }: { className?: string }) {
+  return <span aria-hidden="true" className={cn("block border-t border-current", className)} />;
 }
 
 export type SectionTagData = { index: number; label: string };
 
-// Baris pembuka section seperti baris item struk: "[ 01 ] TENTANG ---------------- +".
+// Baris pembuka section seperti baris item struk: "[ 01 ] TENTANG ——— +".
 export function SectionTag({
   index,
   label,
@@ -36,7 +29,7 @@ export function SectionTag({
     >
       <span className="whitespace-nowrap">[ {String(index).padStart(2, "0")} ]</span>
       <span className="whitespace-nowrap">{label}</span>
-      <ReceiptRule className="min-w-6 flex-1 tracking-normal opacity-60" />
+      <Rule className="min-w-6 flex-1 opacity-30" />
       <span className={inverse ? "text-white" : "text-brand-blue"}>+</span>
     </div>
   );

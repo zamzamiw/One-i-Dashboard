@@ -1,10 +1,10 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { ReceiptRule, SectionTag, type SectionTagData } from "@/components/receipt";
+import { Rule, SectionTag, type SectionTagData } from "@/components/receipt";
 import { Reveal } from "@/components/reveal";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 // PRD 5.6 (dulu "Cara Kerja"): tiga langkah singkat tanpa sub-teks.
-// Horizontal di layar sm ke atas, vertikal di HP, dihubungkan garis rute putus-putus.
+// Horizontal di layar sm ke atas, vertikal di HP, dihubungkan garis rute berpanah.
 export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: SectionTagData }) {
   const { steps } = t;
   return (
@@ -26,8 +26,7 @@ export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: Secti
                   </span>
                   <div className="pt-3.5 sm:pt-0">
                     <p className="text-lg font-semibold">{step}</p>
-                    {/* Garis isian "_____" seperti kolom tanda tangan di struk. */}
-                    <ReceiptRule pattern="under" className="mt-1 w-24 text-brand-blue/60 sm:mx-auto" />
+                    <Rule className="mt-2 w-16 text-brand-blue/40 sm:mx-auto" />
                   </div>
 
                   {!last && (
@@ -37,7 +36,7 @@ export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: Secti
                         aria-hidden="true"
                         className="absolute top-16 -bottom-9 left-7 flex -translate-x-1/2 flex-col items-center sm:hidden"
                       >
-                        <span className="w-0 flex-1 border-l-2 border-dashed border-brand-blue/40" />
+                        <span className="w-0 flex-1 border-l-2 border-brand-blue/30" />
                         <ChevronDown className="-mt-1.5 size-4 text-brand-blue/70" />
                       </span>
                       {/* sm+: dari tepi lingkaran ini ke lingkaran di kolom berikutnya (celah gap-8). */}
@@ -45,7 +44,7 @@ export function HowItWorks({ t, tag }: { t: Dictionary["howItWorks"]; tag: Secti
                         aria-hidden="true"
                         className="absolute top-7 right-[calc(-50%+0.25rem)] left-[calc(50%+2.25rem)] hidden -translate-y-1/2 items-center sm:flex"
                       >
-                        <span className="h-0 flex-1 border-t-2 border-dashed border-brand-blue/40" />
+                        <span className="h-0 flex-1 border-t-2 border-brand-blue/30" />
                         <ChevronRight className="-ml-1.5 size-4 text-brand-blue/70" />
                       </span>
                     </>

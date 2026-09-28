@@ -1,6 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { Barcode, ReceiptRule } from "@/components/receipt";
+import { Barcode, Rule } from "@/components/receipt";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { nav, site } from "@/lib/site";
 
@@ -101,8 +101,7 @@ export function Footer({
           </p>
         </div>
 
-        {/* Garis "=====" seperti batas total di struk. */}
-        <ReceiptRule pattern="equal" className="mt-8 text-white/50" />
+        <Rule className="mt-8 text-white/30" />
         <div className="mt-6 flex flex-col gap-4 text-sm text-white/90 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-8">
             <p>

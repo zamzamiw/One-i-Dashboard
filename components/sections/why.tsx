@@ -20,7 +20,7 @@ export function Why({ t, tag }: { t: Dictionary["why"]; tag: SectionTagData }) {
             <li key={text}>
               <Reveal
                 delay={index * 0.08}
-                className="relative flex h-full flex-col items-center rounded-2xl border border-dashed border-brand-navy/25 bg-white px-4 py-8 text-center sm:px-6 lg:py-12"
+                className="relative flex h-full flex-col items-center rounded-2xl border bg-white px-4 py-8 text-center sm:px-6 lg:py-12"
               >
                 <span aria-hidden="true" className="absolute top-3 left-3 font-mono text-[0.6875rem] text-muted-foreground">
                   [{String(index + 1).padStart(2, "0")}]

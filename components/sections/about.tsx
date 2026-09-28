@@ -24,7 +24,7 @@ export function About({ t, tag }: { t: Dictionary["about"]; tag: SectionTagData 
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:gap-6">
           {acronym.map((item, index) => (
             <li key={item.letter}>
-              <Reveal delay={index * 0.08} className="h-full rounded-xl border border-dashed border-brand-navy/25 bg-white px-4 py-6 lg:py-10">
+              <Reveal delay={index * 0.08} className="h-full rounded-xl border bg-white px-4 py-6 lg:py-10">
                 <span aria-hidden="true" className="block font-heading text-5xl font-bold text-brand-blue lg:text-6xl xl:text-7xl">
                   {item.letter}
                 </span>

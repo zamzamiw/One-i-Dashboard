@@ -12,8 +12,8 @@ import { contactHref, nav, navMore, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 // Gaya mengikuti referensi dari pemilik project: menu huruf kapital font mono (Space Mono),
-// link desktop tersusun dalam kolom 3 baris, dropdown "Lainnya" dengan kotak panah, dan
-// tombol Contact Us biru bersudut tajam. Di bawah lg (1024px) diganti menu hamburger.
+// link desktop dalam satu baris berjarak rata (tata letak ala Kortrijk Xpo), dropdown
+// "Lainnya" dengan kotak panah, dan tombol Contact Us biru bersudut tajam. Di bawah lg (1024px) diganti menu hamburger.
 // Semua teks menu memakai LetterSwap: huruf bergulir acak saat kursor masuk.
 // Tombol ganti bahasa tampil di semua ukuran layar (di HP: di samping tombol menu).
 
@@ -205,7 +205,7 @@ export function Navbar({
   }, [moreOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-dashed border-brand-navy/25 bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur">
       <nav
         aria-label={t.ariaLabel}
         className="flex h-(--nav-h) items-center justify-between gap-8 px-page"
@@ -221,93 +221,91 @@ export function Navbar({
           <Logo tagline={false} />
         </a>
 
-        <div className="flex items-center gap-2 lg:gap-12 xl:gap-20">
-          {/* Satu daftar, dialirkan per kolom 3 baris: urutan baca tetap Tentang → Lainnya. */}
-          <ul className="hidden grid-flow-col grid-rows-3 gap-x-12 lg:grid xl:gap-x-16">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  className={cn(labelClass, "flex h-6 items-center transition-colors hover:text-brand-blue")}
-                >
-                  <LetterSwap label={item.label} />
-                </a>
-              </li>
-            ))}
-            <li
-              ref={moreRef}
-              className="relative"
-              onBlur={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget as Node | null)) closeMore();
-              }}
-            >
-              <button
-                ref={moreButtonRef}
-                type="button"
-                aria-expanded={moreOpen}
-                aria-controls="menu-lainnya"
-                onClick={() => setMoreOpen((value) => !value)}
-                className={cn(
-                  labelClass,
-                  "flex h-6 items-center gap-1.5 transition-colors hover:text-brand-blue",
-                  moreOpen && "text-brand-blue",
-                )}
+        {/* Menu desktop: satu baris di tengah antara logo dan tombol kanan. */}
+        <ul className="hidden flex-1 items-center justify-center gap-6 lg:flex xl:gap-10 2xl:gap-14">
+          {navItems.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.href}
+                className={cn(labelClass, "flex h-11 items-center whitespace-nowrap transition-colors hover:text-brand-blue")}
               >
-                <LetterSwap label={t.more} />
-                <ChevronDown
-                  aria-hidden="true"
-                  className={cn("size-3.5 transition-transform motion-reduce:transition-none", moreOpen && "rotate-180")}
-                />
-              </button>
-
-              <AnimatePresence>
-                {moreOpen && (
-                  <motion.div
-                    id="menu-lainnya"
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: reduceMotion ? 0 : 0.15, ease: "easeOut" }}
-                    className="absolute top-full left-0 mt-3 w-64 border bg-background shadow-[0_16px_40px_-16px_rgb(15_23_42/0.3)]"
-                  >
-                    <ul className="divide-y divide-dashed">
-                      {moreItems.map((item) => (
-                        <li key={item.href}>
-                          <MenuLink
-                            item={item}
-                            newTab={newTab}
-                            onClick={closeMore}
-                            className="h-12 px-4 hover:bg-brand-surface hover:text-brand-blue"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <LetterSwap label={item.label} />
+              </a>
             </li>
-          </ul>
-
-          <div className="flex items-center gap-2 lg:gap-6">
-            <LanguageToggle locale={locale} label={t.switchLanguage} />
-            <a href={contactHref} className={cn(ctaClass, "hidden lg:inline-flex")}>
-              <LetterSwap label={t.contact} />
-              <ArrowUpRight
-                aria-hidden="true"
-                className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
-              />
-            </a>
+          ))}
+          <li
+            ref={moreRef}
+            className="relative"
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) closeMore();
+            }}
+          >
             <button
+              ref={moreButtonRef}
               type="button"
-              className="-mr-2 inline-flex size-11 items-center justify-center lg:hidden"
-              aria-expanded={open}
-              aria-controls="menu-mobile"
-              aria-label={open ? t.closeMenu : t.openMenu}
-              onClick={() => setOpen((value) => !value)}
+              aria-expanded={moreOpen}
+              aria-controls="menu-lainnya"
+              onClick={() => setMoreOpen((value) => !value)}
+              className={cn(
+                labelClass,
+                "flex h-11 items-center gap-1.5 whitespace-nowrap transition-colors hover:text-brand-blue",
+                moreOpen && "text-brand-blue",
+              )}
             >
-              {open ? <X aria-hidden="true" className="size-6" /> : <Menu aria-hidden="true" className="size-6" />}
+              <LetterSwap label={t.more} />
+              <ChevronDown
+                aria-hidden="true"
+                className={cn("size-3.5 transition-transform motion-reduce:transition-none", moreOpen && "rotate-180")}
+              />
             </button>
-          </div>
+
+            <AnimatePresence>
+              {moreOpen && (
+                <motion.div
+                  id="menu-lainnya"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.15, ease: "easeOut" }}
+                  className="absolute top-full left-0 mt-[calc((var(--nav-h)-2.75rem)/2)] w-64 border bg-background shadow-[0_16px_40px_-16px_rgb(15_23_42/0.3)]"
+                >
+                  <ul className="divide-y">
+                    {moreItems.map((item) => (
+                      <li key={item.href}>
+                        <MenuLink
+                          item={item}
+                          newTab={newTab}
+                          onClick={closeMore}
+                          className="h-12 px-4 hover:bg-brand-surface hover:text-brand-blue"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </li>
+        </ul>
+
+        <div className="flex shrink-0 items-center gap-2 lg:gap-6">
+          <LanguageToggle locale={locale} label={t.switchLanguage} />
+          <a href={contactHref} className={cn(ctaClass, "hidden lg:inline-flex")}>
+            <LetterSwap label={t.contact} />
+            <ArrowUpRight
+              aria-hidden="true"
+              className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+            />
+          </a>
+          <button
+            type="button"
+            className="-mr-2 inline-flex size-11 items-center justify-center lg:hidden"
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            aria-label={open ? t.closeMenu : t.openMenu}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X aria-hidden="true" className="size-6" /> : <Menu aria-hidden="true" className="size-6" />}
+          </button>
         </div>
       </nav>
 
@@ -319,10 +317,10 @@ export function Navbar({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
-            className="overflow-hidden border-t border-dashed lg:hidden"
+            className="overflow-hidden border-t lg:hidden"
           >
             <div className="px-page py-4">
-              <ul className="divide-y divide-dashed">
+              <ul className="divide-y">
                 {mobileItems.map((item) => (
                   <li key={item.href}>
                     <MenuLink

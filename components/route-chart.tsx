@@ -10,7 +10,7 @@ import {
   useTransform,
   type Transition,
 } from "motion/react";
-import { ReceiptRule } from "@/components/receipt";
+import { Rule } from "@/components/receipt";
 import { cn } from "@/lib/utils";
 
 // Visual hero PRD 5.2: garis "rute" landai di Track, lalu melesat naik menuju Grow.
@@ -231,7 +231,7 @@ export function RouteChart({ title, stages }: { title: string; stages: Stage[] }
       </div>
 
       {/* Penjelasan tiap tahap, menyala berurutan saat roket tiba di titiknya. */}
-      <ReceiptRule className="mt-4 text-brand-navy/30 sm:mt-5" />
+      <Rule className="mt-4 text-brand-navy/15 sm:mt-5" />
       <ol className="mt-4 grid gap-3 sm:grid-cols-3 sm:gap-5">
         {stages.map((stage, index) => {
           const on = reached > index;

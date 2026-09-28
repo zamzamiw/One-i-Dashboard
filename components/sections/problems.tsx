@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { ArrowDown, EyeOff, FileStack, MapPinOff, Percent, Truck } from "lucide-react";
-import { ReceiptRule, SectionTag, type SectionTagData } from "@/components/receipt";
+import { Rule, SectionTag, type SectionTagData } from "@/components/receipt";
 import { FlowArt, FlowSection } from "@/components/ui/story-scroll";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { cn } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 // PRD 5.4 dengan efek story scroll (keputusan pemilik project): panel pembuka berisi judul +
 // deskripsi, lalu satu panel per masalah yang naik sambil berputar dan menumpuk.
 // Warna panel bergantian supaya tiap panel baru terlihat menutupi yang sebelumnya.
-// Garis amber = "garis masalah" (PRD 6), hanya dekoratif; digambar sebagai garis struk "-----".
+// Garis amber = "garis masalah" (PRD 6), hanya dekoratif; berupa garis tipis.
 const themes = {
   navy: {
     panel: "bg-brand-navy text-white",
@@ -53,7 +53,7 @@ export function Problems({ t, tag }: { t: Dictionary["problems"]; tag: SectionTa
             <h2 id="masalah-judul" className={cn(headingSize, "max-w-[14ch] text-balance")}>
               {t.title}
             </h2>
-            <ReceiptRule className="text-sm text-brand-amber" />
+            <Rule className="text-brand-amber" />
           </div>
           <div className="flex items-end justify-between gap-6">
             <p className={cn(bodySize, "max-w-[40ch] text-muted-foreground")}>{t.description}</p>
@@ -85,11 +85,11 @@ export function Problems({ t, tag }: { t: Dictionary["problems"]; tag: SectionTa
                     <Icon className="size-6 sm:size-7" />
                   </span>
                 </div>
-                <ReceiptRule className={cn("text-sm", colors.rule)} />
+                <Rule className={colors.rule} />
                 <h3 className={cn(headingSize, "max-w-[16ch] text-balance")}>{title}</h3>
               </div>
               <div className="space-y-8">
-                <ReceiptRule className={cn("text-sm", colors.rule)} />
+                <Rule className={colors.rule} />
                 <p className={cn(bodySize, "max-w-[36ch] font-medium")}>{text}</p>
               </div>
             </FlowSection>
