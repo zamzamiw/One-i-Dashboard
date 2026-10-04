@@ -39,14 +39,6 @@ export const id = {
     titleLead: "Kenali setiap langkah sales,",
     titleAccent: "tumbuh lebih pasti.",
     subtitle: "Sistem informasi yang membantu distributor memantau tim sales, margin, dan performa bisnis.",
-    chartTitle: "Grafik rute pertumbuhan: landai di tahap Track, naik di Perform, lalu melesat di Grow",
-    // TODO: konfirmasi copy. PRD tidak menjelaskan Track/Perform/Grow satu per satu; draft ini
-    // disusun dari fitur PRD 5.5 (Track: fitur 1–2, Perform: fitur 4, Grow: fitur 5 + headline).
-    stages: [
-      { name: "Track", text: "Pantau aktivitas dan rute tim sales di lapangan secara real‑time." },
-      { name: "Perform", text: "Ukur performa penjualan dan margin keuntungan tiap pelanggan." },
-      { name: "Grow", text: "Ambil keputusan dari insight bisnis untuk tumbuh lebih pasti." },
-    ],
   },
   techStack: {
     // TODO: konfirmasi copy (belum ada di PRD).

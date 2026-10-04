@@ -141,48 +141,6 @@ html[data-lang-switch] .lang-loader {
   }
 }
 
-/* Api roket di grafik hero (components/route-chart.tsx): berkedip memanjang-memendek. */
-.rocket-flame {
-  transform-box: fill-box;
-  transform-origin: right center;
-  animation: rocket-flame 0.12s ease-in-out infinite alternate;
-}
-
-@keyframes rocket-flame {
-  from {
-    transform: scale(0.7, 0.85);
-  }
-  to {
-    transform: scale(1.15, 1.05);
-  }
-}
-
-/* Denyut titik Grow di grafik hero: lingkaran amber membesar sambil memudar, berulang. */
-.route-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  opacity: 0;
-  animation: route-pulse 1.8s ease-out 0.3s infinite;
-}
-
-@keyframes route-pulse {
-  from {
-    transform: scale(1);
-    opacity: 0.45;
-  }
-  to {
-    transform: scale(2.6);
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .route-pulse,
-  .rocket-flame {
-    animation: none;
-  }
-}
-
 /*
  * Loading awal (components/intro-loader.tsx). Tampil sejak piksel pertama kecuali
  * <html data-intro> (sudah dilewati/selesai). Pengaman: disembunyikan otomatis setelah 5 detik
@@ -378,19 +336,67 @@ html[data-intro] .intro-loader {
   }
 }
 
-/* Titik "i" karakter hero (components/one-i-character.tsx) melayang naik-turun pelan. */
-.character-float {
-  animation: character-float 2.8s ease-in-out 1.6s infinite alternate;
+/*
+ * Karakter One-I (components/one-i-character.tsx). Posisi & ukuran tiap bagian diatur JS;
+ * CSS hanya mengurus animasi muncul (batang naik dari bawah, titik "i" jatuh memantul lalu
+ * melayang pelan) dan tepi putih setelah batang menyatu (terlihat di atas latar biru/navy).
+ */
+.char-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transform-origin: bottom;
 }
 
-@keyframes character-float {
-  to {
-    transform: translateY(calc(var(--u) * -0.35));
+.one-i-character[data-in] .char-fill {
+  opacity: 1;
+  animation: char-rise 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+
+.one-i-character[data-in] .char-dot {
+  animation:
+    char-drop 0.9s ease-out both,
+    char-float 2.8s ease-in-out infinite alternate;
+}
+
+.one-i-character[data-merged] .char-fill {
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+@keyframes char-rise {
+  from {
+    transform: scaleY(0);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .character-float {
-    animation: none;
+@keyframes char-drop {
+  0% {
+    transform: translateY(-400%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-35%);
+  }
+  85% {
+    transform: translateY(0);
+  }
+  93% {
+    transform: translateY(-8%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes char-float {
+  to {
+    transform: translateY(-35%);
   }
 }

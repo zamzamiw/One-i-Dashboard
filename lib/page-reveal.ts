@@ -1,6 +1,6 @@
 // Koordinasi layar penutup halaman: loading awal (components/intro-loader.tsx) dan layar
 // ganti bahasa (components/language-transition.tsx). Animasi yang harus terlihat sejak awal
-// (mis. roket di grafik hero) menunggu sampai halaman tidak tertutup lagi.
+// (mis. animasi muncul karakter One-I di hero) menunggu sampai halaman tidak tertutup lagi.
 // File ini tidak memakai "use client" supaya konstanta string-nya bisa dipakai layout (server).
 export const REVEAL_EVENT = "one-i:reveal";
 export const INTRO_KEY = "one-i-intro";

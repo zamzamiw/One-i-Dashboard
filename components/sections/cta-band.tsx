@@ -14,7 +14,7 @@ export function CtaBand({ t, tag, whatsappHref }: { t: Dictionary["cta"]; tag: S
       <div className="relative">
         <CornerMarks className="text-brand-blue" />
         <div className="relative overflow-hidden rounded-3xl bg-brand-navy px-6 py-14 text-center sm:px-12 sm:py-20 xl:py-28">
-        {/* Gema garis rute dari hero, murni dekoratif. Hanya di layar lebar agar tidak
+        {/* Garis rute (motif Track → Perform → Grow), murni dekoratif. Hanya di layar lebar agar tidak
             menabrak judul; titik Grow tetap amber penuh, hanya garisnya yang redup. */}
         <svg
           viewBox="0 0 600 340"

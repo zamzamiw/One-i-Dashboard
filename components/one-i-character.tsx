@@ -1,106 +1,184 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useReducedMotion, useScroll, useTransform, type Transition } from "motion/react";
 import { onPageRevealed } from "@/lib/page-reveal";
+import { cn } from "@/lib/utils";
 
-// Karakter khas One-I di hero (permintaan pemilik project, terinspirasi karakter garis di
-// samping judul hero Indisea): glyph logo One-I (batang "L" kecil, batang tengah muda, dan
-// batang "i" bertitik) yang mengintip dari balik kartu grafik hero.
-// - saat halaman terbuka: batang naik bergantian dan titik "i" jatuh memantul (seperti animasi
-//   loading), dimulai setelah loading awal / layar ganti bahasa selesai
-// - saat di-scroll: batang "i" memanjang ke bawah mengikuti scroll. Ujung bawahnya keluar dari
-//   bawah kartu, seolah tertahan di layar, lalu berhenti sedikit di dalam section berikutnya
-// - ukuran lewat --u (= lebar batang "i"); proporsi diambil dari components/logo.tsx
-// - dipasang di pembungkus kartu (relative); kartu grafik wajib di atasnya (z-10)
-// - prefers-reduced-motion: langsung tampil, batang tidak memanjang
-// - keadaan awal sama di server dan browser (batang tersembunyi di balik kartu)
-const OVERLAP = 48; // px, seberapa jauh ujung batang masuk ke section berikutnya
-const BASE = 0.4; // ujung batang saat diam: 40% tinggi kartu (tersembunyi di belakangnya)
+// Karakter khas One-I (permintaan pemilik project, terinspirasi karakter di samping judul hero
+// Indisea): glyph logo One-I (batang "L" kecil, batang tengah muda, batang "i" + titik).
+// - di puncak halaman tampil besar sebagai logo di kolom kanan hero (tempat `anchor`)
+// - saat di-scroll ke bawah: batang-batang bergeser dan menyatu menjadi satu batang "i", lalu
+//   "i" itu terbang ke tepi kanan layar dan ikut turun (fixed) di setiap section sampai footer;
+//   batangnya memanjang sesuai seberapa jauh halaman sudah di-scroll
+// - kembali ke atas: semuanya berbalik dan kembali menjadi logo (murni mengikuti posisi scroll)
+// - lapisan fixed di atas konten (pointer-events-none, di bawah navbar & tombol WhatsApp);
+//   setelah menyatu diberi tepi putih supaya tetap terlihat di atas latar biru/navy
+// - per frame scroll hanya 5 elemen yang diubah (transform + ukuran), dihitung dari ukuran yang
+//   di-cache saat resize; animasi muncul (batang naik, titik jatuh memantul) memakai CSS
+// - prefers-reduced-motion: lapisan ini disembunyikan, logo statis tampil di hero
+// - markup server = browser; lapisan baru terlihat setelah ukurannya diukur di browser
+
+type Piece = "nub" | "stem" | "middle" | "tall" | "dot";
+type Rect = { x: number; y: number; w: number; h: number };
+
+// Proporsi glyph dari components/logo.tsx; satuan = lebar batang "i" (90 di viewBox logo).
+const GLYPH = { w: 4, h: 5.47 };
+const LOGO: Record<Piece, Rect> = {
+  nub: { x: 0, y: 3.61, w: 0.89, h: 0.47 },
+  stem: { x: 0.39, y: 3.61, w: 0.5, h: 1.86 },
+  middle: { x: 1.5, y: 2.43, w: 0.97, h: 3.04 },
+  tall: { x: 2.99, y: 1.21, w: 1, h: 4.26 },
+  dot: { x: 2.98, y: 0, w: 1.03, h: 1.03 },
+};
+const PIECES: Piece[] = ["nub", "stem", "middle", "tall", "dot"]; // urutan gambar: "i" paling atas
+const DELAY: Record<Piece, string> = { nub: "0.1s", stem: "0.1s", middle: "0.22s", tall: "0.34s", dot: "0.6s" };
+
+// Tahap scroll, dalam tinggi layar: menyatu sampai 0,22; terbang ke tepi sampai 0,6.
+const MERGE_END = 0.22;
+const FLY_END = 0.6;
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const mix = (a: Rect, b: Rect, t: number): Rect => ({
+  x: lerp(a.x, b.x, t),
+  y: lerp(a.y, b.y, t),
+  w: lerp(a.w, b.w, t),
+  h: lerp(a.h, b.h, t),
+});
 
 export function OneICharacter() {
+  const anchorRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const timing = (transition: Transition): Transition => (reduceMotion ? { duration: 0 } : transition);
+  const pieceRefs = useRef<Partial<Record<Piece, HTMLDivElement | null>>>({});
+  const [ready, setReady] = useState(false);
   const [shown, setShown] = useState(false);
 
-  // Panjang batang "i" di bawah tepi atas kartu (px): dasar + tambahan yang mengikuti scroll.
-  const base = useMotionValue(0);
-  const max = useMotionValue(0);
-  const still = useRef(false); // prefers-reduced-motion: batang tidak memanjang
-  const { scrollY } = useScroll();
-  const below = useTransform([scrollY, base, max], ([scrolled, start, end]: number[]) => {
-    const extra = still.current ? 0 : Math.min(Math.max(0, scrolled), Math.max(0, end - start));
-    return `calc(var(--u) * 4.26 + ${start + extra}px)`;
-  });
-
   useEffect(() => {
+    const anchor = anchorRef.current;
     const root = rootRef.current;
-    const card = root?.parentElement;
-    const hero = root?.closest("section");
-    if (!root || !card || !hero) return;
-    still.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!anchor || !root) return;
 
-    // Ukuran di-cache saat resize; jarak dihitung dari selisih posisi (tidak terpengaruh scroll).
+    // Ukuran yang di-cache (diukur ulang saat ukuran layar/halaman berubah).
+    const size = { ox: 0, oy: 0, u: 0, gutter: 20, navH: 64, floor: 0, docH: 0 };
     const measure = () => {
-      const cardRect = card.getBoundingClientRect();
-      const heroRect = hero.getBoundingClientRect();
-      base.set(cardRect.height * BASE);
-      max.set(heroRect.bottom - cardRect.top + OVERLAP);
+      const rect = anchor.getBoundingClientRect();
+      const u = Math.min(rect.width / GLYPH.w, rect.height / GLYPH.h);
+      const page = anchor.closest<HTMLElement>(".px-page");
+      const whatsapp = document.querySelector<HTMLElement>("[data-whatsapp-float]");
+      size.u = u;
+      size.ox = rect.left + window.scrollX + (rect.width - GLYPH.w * u) / 2;
+      size.oy = rect.top + window.scrollY + (rect.height - GLYPH.h * u) / 2;
+      size.gutter = page ? parseFloat(getComputedStyle(page).paddingRight) : 20;
+      size.navH = document.querySelector("header")?.getBoundingClientRect().height ?? 64;
+      size.floor = (whatsapp?.getBoundingClientRect().top ?? window.innerHeight) - 16;
+      size.docH = document.documentElement.scrollHeight;
     };
+
+    const place = (piece: Piece, rect: Rect, visible = true) => {
+      const el = pieceRefs.current[piece];
+      if (!el) return;
+      el.style.transform = `translate3d(${rect.x}px, ${rect.y}px, 0)`;
+      el.style.width = `${rect.w}px`;
+      el.style.height = `${rect.h}px`;
+      el.style.borderRadius = piece === "dot" ? "50%" : `${Math.min(rect.w, rect.h) * 0.3}px`;
+      el.style.opacity = visible ? "1" : "0";
+    };
+
+    const update = () => {
+      frame = 0;
+      const scrolled = window.scrollY;
+      const vh = window.innerHeight;
+      const merge = ease(clamp01(scrolled / (vh * MERGE_END)));
+      const fly = ease(clamp01((scrolled - vh * MERGE_END) / (vh * (FLY_END - MERGE_END))));
+      const { ox, oy, u, gutter, navH, floor, docH } = size;
+      const logo = (piece: Piece): Rect => {
+        const r = LOGO[piece];
+        return { x: ox + r.x * u, y: oy + r.y * u, w: r.w * u, h: r.h * u };
+      };
+
+      // Posisi akhir: "i" kecil di tengah gutter kanan, di bawah navbar.
+      const uEnd = Math.min(16, Math.max(6, gutter * 0.2));
+      const center = window.innerWidth - gutter / 2;
+      const dotEnd: Rect = { x: center - (uEnd * 1.03) / 2, y: navH + Math.max(14, gutter * 0.3), w: uEnd * 1.03, h: uEnd * 1.03 };
+      const barTop = dotEnd.y + dotEnd.h + Math.max(3, uEnd * 0.18);
+      const minLength = uEnd * LOGO.tall.h;
+      const maxLength = Math.max(minLength, floor - barTop);
+      const progress = clamp01(scrolled / Math.max(1, docH - vh));
+      const tallEnd: Rect = { x: center - uEnd / 2, y: barTop, w: uEnd, h: lerp(minLength, maxLength, progress) };
+
+      const tall = mix(logo("tall"), tallEnd, fly);
+      for (const piece of ["nub", "stem", "middle"] as const) {
+        place(piece, fly > 0 ? tall : mix(logo(piece), logo("tall"), merge), fly === 0);
+      }
+      place("tall", tall);
+      place("dot", mix(logo("dot"), dotEnd, fly));
+      root.toggleAttribute("data-merged", fly > 0.5);
+    };
+
+    let frame = 0;
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const refresh = () => {
+      measure();
+      schedule();
+    };
+
     measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(card);
-    observer.observe(hero);
+    update();
+    setReady(true);
+    const observer = new ResizeObserver(refresh);
+    observer.observe(anchor);
+    observer.observe(document.body);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", refresh);
     const stopWaiting = onPageRevealed(() => setShown(true));
     return () => {
+      cancelAnimationFrame(frame);
       observer.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", refresh);
       stopWaiting();
     };
-  }, [base, max]);
-
-  const rise = (delay: number) => timing({ type: "spring", stiffness: 260, damping: 22, delay });
+  }, []);
 
   return (
-    <div
-      ref={rootRef}
-      aria-hidden="true"
-      className="pointer-events-none absolute top-0 left-[clamp(1.25rem,3vw,3rem)] z-0 w-[calc(var(--u)*4)] [--u:0.75rem] sm:[--u:0.875rem] lg:[--u:1.1rem] xl:[--u:1.25rem] 2xl:[--u:1.5rem]"
-    >
-      {/* Batang "L" kecil: tiang + tonjolan ke kiri di atasnya. */}
-      <motion.div
-        className="absolute top-[calc(var(--u)*-1.86)] left-0 h-[calc(var(--u)*4)] w-[calc(var(--u)*0.89)]"
-        initial={{ y: "100%" }}
-        animate={{ y: shown ? 0 : "100%" }}
-        transition={rise(0.1)}
+    <>
+      {/* Tempat logo di hero. Untuk prefers-reduced-motion, logo statis tampil di sini. */}
+      <div ref={anchorRef} aria-hidden="true" className="h-52 sm:h-64 lg:h-[min(34rem,62svh)]">
+        <svg viewBox="146 66.5 359 492.5" className="mx-auto hidden h-full w-auto motion-reduce:block">
+          <g className="fill-brand-blue">
+            <rect x="146" y="392" width="80" height="42" rx="11" />
+            <rect x="181" y="392" width="45" height="167" rx="11" />
+            <rect x="415" y="176" width="90" height="383" rx="28" />
+            <circle cx="461" cy="113" r="46.5" />
+          </g>
+          <rect x="281" y="285" width="87" height="274" rx="27" fill="#A8BAFE" />
+        </svg>
+      </div>
+      <div
+        ref={rootRef}
+        aria-hidden="true"
+        data-ready={ready ? "" : undefined}
+        data-in={shown ? "" : undefined}
+        className="one-i-character pointer-events-none invisible fixed inset-0 z-30 data-ready:visible motion-reduce:hidden"
       >
-        <span className="absolute inset-x-0 top-0 h-[calc(var(--u)*0.47)] rounded-[calc(var(--u)*0.12)] bg-brand-blue" />
-        <span className="absolute top-0 right-0 bottom-0 w-[calc(var(--u)*0.5)] rounded-[calc(var(--u)*0.12)] bg-brand-blue" />
-      </motion.div>
-      {/* Batang tengah (warna muda seperti di logo). */}
-      <motion.div
-        className="absolute top-[calc(var(--u)*-3.04)] left-[calc(var(--u)*1.5)] h-[calc(var(--u)*5)] w-[calc(var(--u)*0.97)] rounded-[calc(var(--u)*0.3)] bg-[#A8BAFE]"
-        initial={{ y: "100%" }}
-        animate={{ y: shown ? 0 : "100%" }}
-        transition={rise(0.22)}
-      />
-      {/* Batang "i": memanjang ke bawah mengikuti scroll. */}
-      <motion.div
-        className="absolute top-[calc(var(--u)*-4.26)] left-[calc(var(--u)*2.99)] w-(--u) rounded-[calc(var(--u)*0.31)] bg-brand-blue"
-        style={{ height: below }}
-        initial={{ y: "100%" }}
-        animate={{ y: shown ? 0 : "100%" }}
-        transition={rise(0.34)}
-      />
-      {/* Titik "i": jatuh memantul, lalu melayang pelan (CSS). */}
-      <motion.div
-        className="absolute top-[calc(var(--u)*-5.47)] left-[calc(var(--u)*2.98)] size-[calc(var(--u)*1.03)]"
-        initial={{ y: "-8rem", opacity: 0 }}
-        animate={shown ? { y: 0, opacity: 1 } : { y: "-8rem", opacity: 0 }}
-        transition={timing({ y: { type: "spring", stiffness: 420, damping: 11, delay: 0.6 }, opacity: { duration: 0.2, delay: 0.6 } })}
-      >
-        <span className="character-float block size-full rounded-full bg-brand-blue" />
-      </motion.div>
-    </div>
+        {PIECES.map((piece) => (
+          <div
+            key={piece}
+            ref={(el) => {
+              pieceRefs.current[piece] = el;
+            }}
+            className="absolute top-0 left-0 will-change-transform"
+          >
+            <span
+              className={cn("char-fill", piece === "middle" ? "bg-[#A8BAFE]" : "bg-brand-blue", piece === "dot" && "char-dot")}
+              style={{ animationDelay: piece === "dot" ? `${DELAY.dot}, 1.8s` : DELAY[piece] }}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
