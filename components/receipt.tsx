@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 
-// Elemen dekoratif gaya struk belanja (keputusan pemilik project): label dalam kurung [ ],
-// dan tanda "+" di sudut kartu. Garis pemisah dulu berupa karakter "-----"; atas
+// Elemen dekoratif gaya struk belanja (keputusan pemilik project): label dalam kurung [ ]. Garis pemisah dulu berupa karakter "-----"; atas
 // permintaan pemilik sekarang garis tipis biasa. Semuanya aria-hidden (murni hiasan).
 
 // Garis pemisah tipis; warnanya mengikuti warna teks (currentColor), atur lewat kelas text-*.
@@ -33,23 +32,4 @@ export function SectionTag({
       <span className={inverse ? "text-white" : "text-brand-blue"}>+</span>
     </div>
   );
-}
-
-// Tanda "+" di keempat sudut wadah (induk wajib `relative`), seperti tanda potong/registrasi.
-const corners = ["-top-3 -left-3", "-top-3 -right-3", "-bottom-3 -left-3", "-bottom-3 -right-3"];
-
-export function CornerMarks({ className }: { className?: string }) {
-  return corners.map((position) => (
-    <span
-      key={position}
-      aria-hidden="true"
-      className={cn(
-        "pointer-events-none absolute flex size-6 items-center justify-center font-mono text-xl leading-none select-none",
-        position,
-        className,
-      )}
-    >
-      +
-    </span>
-  ));
 }

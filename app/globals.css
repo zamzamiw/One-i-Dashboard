@@ -321,33 +321,32 @@ html[data-intro] .intro-loader {
 }
 
 /*
- * Karakter One-I (components/one-i-character.tsx). Posisi & ukuran tiap bagian diatur JS;
- * CSS hanya mengurus animasi muncul (batang naik dari bawah, titik "i" jatuh memantul lalu
- * melayang pelan).
+ * Karakter "i" One-I + ekornya (components/one-i-tail.tsx). Panjang garis diatur JS; CSS
+ * mengurus titik "i" di hero (jatuh memantul lalu melayang pelan) dan titik "i" di Contact Us
+ * (muncul membesar saat ekor selesai, hilang lagi saat di-scroll ke atas).
  */
-.char-fill {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
+.tail-start-dot {
   opacity: 0;
-  transform-origin: bottom;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.one-i-character[data-in] .char-fill {
+.one-i-tail[data-in] .tail-start-dot {
   opacity: 1;
-  animation: char-rise 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
-}
-
-.one-i-character[data-in] .char-dot {
   animation:
-    char-drop 0.9s ease-out both,
-    char-float 2.8s ease-in-out infinite alternate;
+    char-drop 0.9s ease-out 0.6s both,
+    char-float 2.8s ease-in-out 1.8s infinite alternate;
 }
 
-@keyframes char-rise {
-  from {
-    transform: scaleY(0);
-  }
+.tail-end-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.one-i-tail[data-done] .tail-end-dot {
+  transform: scale(1);
 }
 
 @keyframes char-drop {
