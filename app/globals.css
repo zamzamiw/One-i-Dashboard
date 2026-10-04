@@ -52,8 +52,11 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-space-grotesk);
+  --font-sans: var(--font-plex-sans);
+  --font-heading: var(--font-plex-sans);
+  /* Judul rapat ala gaya minimalis tebal (bawaan Tailwind -0.025em / -0.05em). */
+  --tracking-tight: -0.04em;
+  --tracking-tighter: -0.055em;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
 }
 
@@ -361,6 +364,33 @@ html[data-intro] .intro-loader {
 
 @media (prefers-reduced-motion: reduce) {
   .ambient-blob {
+    animation: none;
+  }
+}
+
+/* Kartu logo Teknologi (components/ui/logo-cloud.tsx): saat satu kartu disorot kursor, kartu
+   lain buram tipis dan meredup. Hanya untuk perangkat yang punya hover (bukan layar sentuh). */
+@media (hover: hover) {
+  .logo-cloud:has(.logo-card:hover) .logo-card:not(:hover) {
+    filter: blur(2px);
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+}
+
+/* Titik "i" karakter hero (components/one-i-character.tsx) melayang naik-turun pelan. */
+.character-float {
+  animation: character-float 2.8s ease-in-out 1.6s infinite alternate;
+}
+
+@keyframes character-float {
+  to {
+    transform: translateY(calc(var(--u) * -0.35));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-float {
     animation: none;
   }
 }

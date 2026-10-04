@@ -9,9 +9,9 @@ import { nav, site } from "@/lib/site";
 // pemilik project (wordmark raksasa), dengan latar brand-blue agar konsisten.
 // Teks sekunder minimal white/90: kontras 4.9:1 di atas #2552FC (white/70 hanya 3.6:1).
 
-// Rasio lebar/tinggi-font "One-I" (Space Grotesk bold, tracking-tighter), diukur di
+// Rasio lebar/tinggi-font "One-I" (IBM Plex Sans bold, tracking-tighter), diukur di
 // browser, supaya wordmark pas selebar kontainer lewat unit cqw.
-const WORDMARK_RATIO = 2.33;
+const WORDMARK_RATIO = 2.42;
 const YEAR = new Date().getFullYear();
 
 type FooterLink = { label: string; href: string; external?: boolean };

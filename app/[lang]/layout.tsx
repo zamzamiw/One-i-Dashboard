@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
+import { IBM_Plex_Sans, Space_Mono } from "next/font/google";
 import { IntroLoader } from "@/components/intro-loader";
 import { LanguageTransition } from "@/components/language-transition";
 import { defaultLocale, hasLocale, localeHref, locales } from "@/lib/i18n/config";
@@ -9,13 +9,10 @@ import { introScript } from "@/lib/page-reveal";
 import { site } from "@/lib/site";
 import "../globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Judul dan teks: satu font variabel (gaya minimalis tebal, referensi Indisea dari pemilik
+// project), menggantikan Space Grotesk + Inter dari PRD.
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
 });
 
@@ -65,7 +62,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${spaceGrotesk.variable} ${spaceMono.variable}`}
+      className={`${plexSans.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
       <head>
