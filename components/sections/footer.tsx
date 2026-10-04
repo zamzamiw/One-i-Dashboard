@@ -1,6 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { Barcode, Rule } from "@/components/receipt";
+import { Rule } from "@/components/receipt";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { nav, site } from "@/lib/site";
 
@@ -53,7 +53,7 @@ export function Footer({
 
   // overflow-hidden: ruang descent font wordmark raksasa tidak boleh menambah tinggi halaman di bawah footer.
   return (
-    <footer id="kontak" className="receipt-edge-top overflow-hidden bg-brand-blue text-white">
+    <footer id="kontak" className="overflow-hidden bg-brand-blue text-white">
       <div className="px-page pt-16 pb-24 sm:pt-20 sm:pb-10">
         <h2 className="sr-only">{t.heading}</h2>
 
@@ -61,7 +61,6 @@ export function Footer({
           <div>
             <Logo inverse />
             <p className="mt-6 max-w-xs leading-relaxed text-white/90">{description}</p>
-            <Barcode className="mt-8 h-10 w-44 text-white/90" />
           </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">

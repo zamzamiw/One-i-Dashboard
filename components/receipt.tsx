@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 // Elemen dekoratif gaya struk belanja (keputusan pemilik project): label dalam kurung [ ],
-// tanda "+" di sudut kartu, dan barcode. Garis pemisah dulu berupa karakter "-----"; atas
+// dan tanda "+" di sudut kartu. Garis pemisah dulu berupa karakter "-----"; atas
 // permintaan pemilik sekarang garis tipis biasa. Semuanya aria-hidden (murni hiasan).
 
 // Garis pemisah tipis; warnanya mengikuti warna teks (currentColor), atur lewat kelas text-*.
@@ -52,8 +52,4 @@ export function CornerMarks({ className }: { className?: string }) {
       +
     </span>
   ));
-}
-
-export function Barcode({ className }: { className?: string }) {
-  return <span aria-hidden="true" className={cn("receipt-barcode block", className)} />;
 }

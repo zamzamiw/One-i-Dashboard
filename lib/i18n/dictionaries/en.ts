@@ -78,7 +78,6 @@ export const en: Dictionary = {
   },
   features: {
     title: "What One-I Does",
-    scrollHint: "Scroll to see every feature",
     description: "One-I is designed to help distributors connect their field teams with the information management needs.",
     items: [
       {

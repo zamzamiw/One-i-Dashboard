@@ -138,35 +138,6 @@ html[data-lang-switch] .lang-loader {
   }
 }
 
-/* Elemen gaya struk belanja (components/receipt.tsx). */
-/* Barcode dekoratif: pola garis tebal-tipis berulang, warnanya mengikuti currentColor. */
-.receipt-barcode {
-  background: repeating-linear-gradient(
-    90deg,
-    currentColor 0 2px,
-    transparent 2px 4px,
-    currentColor 4px 5px,
-    transparent 5px 8px,
-    currentColor 8px 11px,
-    transparent 11px 12px,
-    currentColor 12px 13px,
-    transparent 13px 16px,
-    currentColor 16px 17px,
-    transparent 17px 19px,
-    currentColor 19px 22px,
-    transparent 22px 25px,
-    currentColor 25px 26px,
-    transparent 26px 28px
-  );
-}
-
-/* Tepi atas bergerigi seperti struk yang disobek (dipakai footer). */
-.receipt-edge-top {
-  --receipt-tooth: 0.625rem;
-  mask: conic-gradient(from -45deg at 50% var(--receipt-tooth), #0000 90deg, #000 0) 50% 0 /
-    calc(var(--receipt-tooth) * 2) 100% repeat-x;
-}
-
 /* Api roket di grafik hero (components/route-chart.tsx): berkedip memanjang-memendek. */
 .rocket-flame {
   transform-box: fill-box;
@@ -359,185 +330,37 @@ html[data-intro] .intro-loader {
 }
 
 /*
- * Timeline fitur (components/ui/timeline.tsx). Bawaan = daftar vertikal biasa; mode geser
- * (section tertahan, jalur bergeser ke samping mengikuti scroll) hanya kalau gerakan tidak
- * dikurangi dan layar cukup tinggi untuk dua baris item. --timeline-distance = lebar jalur yang
- * harus digeser (diukur JS); tinggi section = tinggi layar + jarak itu + jeda di akhir.
+ * Latar ambient (components/ui/ambient-background.tsx): gumpalan biru lembut di atas putih yang
+ * bergeser pelan (tidak mengikuti kursor), ditambah grid garis tipis. Hanya transform yang
+ * dianimasikan (murah, diproses GPU); diam untuk prefers-reduced-motion.
  */
-.timeline {
-  padding-block: 5rem;
+.ambient-blob {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--blob-color), transparent);
+  will-change: transform;
+  animation: ambient-drift var(--blob-duration) ease-in-out infinite alternate;
 }
 
-.timeline-header {
-  margin-bottom: 2.5rem;
+.ambient-grid {
+  background-image:
+    linear-gradient(to right, rgb(15 23 42 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(15 23 42 / 0.05) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+  background-position: center top;
 }
 
-.timeline-track {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.timeline-rail {
-  position: relative;
-  max-width: 48rem;
-}
-
-.timeline-items {
-  display: grid;
-  gap: 2.5rem;
-}
-
-.timeline-item {
-  padding-left: 1.75rem;
-}
-
-.timeline-stem {
-  top: 0.375rem;
-  bottom: -2.5rem;
-  transform-origin: top;
-}
-
-.timeline-item:last-child .timeline-stem {
-  bottom: 0;
-}
-
-.timeline-dot {
-  top: 0;
-}
-
-.timeline-line,
-.timeline-hint {
-  display: none;
-}
-
-@media (prefers-reduced-motion: reduce), (max-height: 37.49rem) {
-  .timeline-track {
-    transform: none !important;
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(var(--blob-dx), var(--blob-dy), 0) scale(var(--blob-scale));
   }
 }
 
-@media (prefers-reduced-motion: no-preference) and (min-height: 37.5rem) {
-  .timeline {
-    padding-block: 0;
-    height: calc(100svh - var(--nav-h) + var(--timeline-distance, 150vw) * 1.22);
-  }
-
-  .timeline-pin {
-    position: sticky;
-    top: var(--nav-h);
-    display: flex;
-    height: calc(100svh - var(--nav-h));
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .timeline-header {
-    margin-bottom: 0;
-    padding-top: 1.5rem;
-  }
-
-  .timeline-viewport {
-    position: relative;
-    flex: 1;
-    min-height: 0;
-  }
-
-  .timeline-track {
-    position: absolute;
-    inset-block: 0;
-    left: 0;
-    width: max-content;
-    flex-direction: row;
-    align-items: stretch;
-    gap: clamp(2.5rem, 6vw, 7rem);
-    padding-block: 1.5rem;
-    will-change: transform;
-  }
-
-  .timeline-intro {
-    width: min(85vw, 26rem);
-  }
-
-  .timeline-rail {
-    display: flex;
-    max-width: none;
-  }
-
-  .timeline-items {
-    --col: 42vw;
-    flex: 1;
-    gap: 0;
-    grid-template-rows: 1fr 1fr;
-    grid-auto-columns: var(--col);
-  }
-
-  .timeline-item {
-    grid-row: 1;
-    grid-column: var(--start) / span 2;
-    padding: 0 2rem 2.5rem 1.25rem;
-  }
-
-  .timeline-item[data-side="bottom"] {
-    grid-row: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2.5rem 2rem 0 1.25rem;
-  }
-
-  .timeline-item[data-side="top"] .timeline-stem {
-    top: 0.375rem;
-    bottom: 0;
-    transform-origin: bottom;
-  }
-
-  .timeline-item[data-side="bottom"] .timeline-stem {
-    top: 0;
-    bottom: 0.375rem;
-  }
-
-  .timeline-item[data-side="bottom"] .timeline-dot {
-    top: auto;
-    bottom: 0;
-  }
-
-  .timeline-line {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 0;
-    display: block;
-    height: 2px;
-    translate: 0 -50%;
-    overflow: hidden;
-  }
-
-  .timeline-hint {
-    display: flex;
-  }
-
-  @media (min-width: 40rem) {
-    .timeline-intro {
-      width: min(60vw, 30rem);
-    }
-
-    .timeline-items {
-      --col: 28vw;
-    }
-  }
-
-  @media (min-width: 64rem) {
-    .timeline-track {
-      padding-block: 2.5rem;
-    }
-
-    .timeline-intro {
-      width: clamp(22rem, 30vw, 40rem);
-    }
-
-    .timeline-items {
-      --col: 20vw;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob {
+    animation: none;
   }
 }

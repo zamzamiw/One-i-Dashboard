@@ -10,14 +10,14 @@ import { Problems } from "@/components/sections/problems";
 import { TechStack } from "@/components/sections/tech-stack";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Why } from "@/components/sections/why";
-import { InteractiveCanvas } from "@/components/ui/interactive-canvas";
+import { AmbientBackground } from "@/components/ui/ambient-background";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { hasLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { whatsappLink } from "@/lib/site";
 
-// Urutan section sesuai PRD bagian 4, ditambah pita Teknologi setelah hero dan Testimoni sebelum
-// CTA (keputusan pemilik project).
+// Urutan section sesuai PRD bagian 4, ditambah Testimoni sebelum CTA dan pita Teknologi tepat
+// sebelum footer (keputusan pemilik project).
 // Semua teks datang dari kamus bahasa aktif (lib/i18n/dictionaries). `tag` = baris pembuka
 // gaya struk "[ 01 ] LABEL ---- +" (components/receipt.tsx), labelnya sama dengan menu navbar.
 export default async function Home({ params }: PageProps<"/[lang]">) {
@@ -28,12 +28,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <>
-      {/* Latar grid titik interaktif, tampil di section berlatar putih (di belakang konten). */}
-      <InteractiveCanvas />
+      {/* Latar ambient putih-biru + grid tipis, tampil di section tanpa latar (di belakang konten). */}
+      <AmbientBackground />
       <Navbar t={t.nav} newTab={t.common.newTab} locale={lang} whatsappHref={whatsappHref} />
       <main>
         <Hero t={t.hero} />
-        <TechStack t={t.techStack} />
         <About t={t.about} tag={{ index: 1, label: t.nav.links.tentang }} />
         <Problems t={t.problems} tag={{ index: 2, label: t.nav.links.masalah }} />
         <Features t={t.features} tag={{ index: 3, label: t.nav.links.layanan }} />
@@ -41,6 +40,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Why t={t.why} tag={{ index: 5, label: t.nav.links.kenapa }} />
         <Testimonials t={t.testimonials} tag={{ index: 6, label: t.nav.links.testimoni }} />
         <CtaBand t={t.cta} tag={{ index: 7, label: t.nav.contact }} whatsappHref={whatsappHref} />
+        <TechStack t={t.techStack} />
       </main>
       <Footer t={t.footer} nav={t.nav.links} description={t.meta.description} newTab={t.common.newTab} whatsappHref={whatsappHref} />
       <WhatsAppFloat label={t.whatsapp.floatLabel} href={whatsappHref} />

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
-import { CursorCrosshair } from "@/components/cursor-crosshair";
 import { IntroLoader } from "@/components/intro-loader";
 import { LanguageTransition } from "@/components/language-transition";
 import { defaultLocale, hasLocale, localeHref, locales } from "@/lib/i18n/config";
@@ -75,7 +74,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       </head>
       <body>
         {children}
-        <CursorCrosshair />
         <LanguageTransition status={getDictionary(locale).languageTransition.status} />
         <IntroLoader />
       </body>

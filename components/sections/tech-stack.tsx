@@ -3,7 +3,8 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { techStack } from "@/lib/tech-stack";
 
 // Section Teknologi (permintaan pemilik project, di luar PRD awal): pita logo teknologi yang
-// dipakai One-I, tepat setelah hero sebagai pemisah menuju section Tentang.
+// dipakai One-I, di akhir halaman tepat sebelum footer (dulu setelah hero; dipindah atas
+// permintaan pemilik).
 export function TechStack({ t }: { t: Dictionary["techStack"] }) {
   return (
     <section id="teknologi" aria-labelledby="teknologi-judul" className="py-14 sm:py-20">
