@@ -290,20 +290,9 @@ html[data-intro] .intro-loader {
   transform: translate(calc(var(--i) * var(--dx)), calc(var(--i) * var(--dy) - var(--lift))) skewY(-8deg);
 }
 
-/*
- * Latar ambient (components/ui/ambient-background.tsx): gumpalan biru lembut di atas putih yang
- * bergeser pelan (tidak mengikuti kursor), ditambah grid garis tipis. Hanya transform yang
- * dianimasikan (murah, diproses GPU); diam untuk prefers-reduced-motion.
- */
-.ambient-blob {
-  position: absolute;
-  border-radius: 9999px;
-  background: radial-gradient(closest-side, var(--blob-color), transparent);
-  will-change: transform;
-  animation: ambient-drift var(--blob-duration) ease-in-out infinite alternate;
-}
-
-.ambient-grid {
+/* Latar shader (components/ui/paper-design-shader-background.tsx): grid garis tipis di atas
+   gradien, dan shader memudar masuk setelah kodenya selesai dimuat. */
+.bg-grid {
   background-image:
     linear-gradient(to right, rgb(15 23 42 / 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(15 23 42 / 0.05) 1px, transparent 1px);
@@ -311,18 +300,13 @@ html[data-intro] .intro-loader {
   background-position: center top;
 }
 
-@keyframes ambient-drift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(var(--blob-dx), var(--blob-dy), 0) scale(var(--blob-scale));
-  }
+.shader-fade-in {
+  animation: shader-fade-in 1.2s ease-out both;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ambient-blob {
-    animation: none;
+@keyframes shader-fade-in {
+  from {
+    opacity: 0;
   }
 }
 
@@ -339,7 +323,7 @@ html[data-intro] .intro-loader {
 /*
  * Karakter One-I (components/one-i-character.tsx). Posisi & ukuran tiap bagian diatur JS;
  * CSS hanya mengurus animasi muncul (batang naik dari bawah, titik "i" jatuh memantul lalu
- * melayang pelan) dan tepi putih setelah batang menyatu (terlihat di atas latar biru/navy).
+ * melayang pelan).
  */
 .char-fill {
   position: absolute;
@@ -358,10 +342,6 @@ html[data-intro] .intro-loader {
   animation:
     char-drop 0.9s ease-out both,
     char-float 2.8s ease-in-out infinite alternate;
-}
-
-.one-i-character[data-merged] .char-fill {
-  box-shadow: 0 0 0 2px #ffffff;
 }
 
 @keyframes char-rise {
