@@ -109,8 +109,7 @@ Cara termudah: **Vercel** (gratis untuk project pribadi, pembuat Next.js).
 
 ## Isi zip
 
-- `app/`, `components/`, `lib/` — kode website
-- `public/` — file statis
+- `app/`, `components/`, `lib/` — kode website (ikon situs ada di `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`)
 - `docs/` — PRD (spesifikasi), logo asli, panduan setup Windows lewat Git
 - `CLAUDE.md`, `AGENTS.md` — catatan untuk Claude Code (dan dokumentasi keputusan desain)
 - `.claude/skills/` — skill desain untuk Claude Code (opsional)
