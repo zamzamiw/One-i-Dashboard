@@ -1,7 +1,7 @@
 # One-I — Landing Page
 
 Landing page One-I (Optimized Network Engagement Indonesia): **TRACK · PERFORM · GROW**.
-Spesifikasi: [`docs/PRD.md`](docs/PRD.md). Panduan setup di Windows: [`docs/SETUP-WINDOWS.md`](docs/SETUP-WINDOWS.md).
+Spesifikasi: [`docs/PRD.md`](docs/PRD.md). Memakai project dari file zip: [`PANDUAN.md`](PANDUAN.md). Panduan setup Windows lewat Git: [`docs/SETUP-WINDOWS.md`](docs/SETUP-WINDOWS.md).
 
 ## Menjalankan
 
@@ -26,15 +26,17 @@ Buka http://localhost:3000 (Indonesia) atau http://localhost:3000/en (Inggris).
 | Lokasi | Isi |
 |---|---|
 | `app/[lang]/page.tsx` | Merangkai semua section sesuai urutan PRD |
-| `app/[lang]/layout.tsx` | Font, metadata SEO per bahasa |
+| `app/[lang]/layout.tsx` | Font, metadata SEO per bahasa, loading awal |
 | `lib/i18n/dictionaries/` | **Semua teks halaman**: `id.ts` (Indonesia, di `/`) dan `en.ts` (Inggris, di `/en`) |
-| `app/globals.css` | Token warna brand |
-| `components/sections/` | Satu file per section |
-| `components/cursor-crosshair.tsx` | Crosshair kursor di seluruh situs (dipasang di `app/layout.tsx`) |
-| `components/ui/interactive-canvas.tsx` | Latar grid titik interaktif di belakang halaman |
 | `lib/site.ts` | Nama, **data kontak, nomor WhatsApp, "Designed by"** (masih placeholder `xxxx`), URL situs |
-| `.claude/skills/ui-ux-pro-max/` | Skill desain untuk Claude Code |
+| `lib/tech-stack.ts` | Daftar logo di pita Teknologi |
+| `app/globals.css` | Token warna brand + animasi CSS |
+| `components/sections/` | Satu file per section |
+| `components/one-i-tail.tsx` | Karakter "i" di hero + ekornya yang mengikuti scroll sampai Contact Us |
+| `components/ui/paper-design-shader-background.tsx` | Latar gradien bergerak (shader) di belakang halaman |
+| `CLAUDE.md` | Catatan lengkap semua keputusan desain + daftar hal yang belum final |
+| `PANDUAN.md` | Panduan memakai project dari file zip |
 
 ## Stack
 
-Next.js 16 · TypeScript · Tailwind CSS v4 · shadcn/ui · Motion (`motion/react`) · lucide-react
+Next.js 16 · TypeScript · Tailwind CSS v4 · shadcn/ui · Motion (`motion/react`) · lucide-react · Paper Shaders (`@paper-design/shaders-react`)

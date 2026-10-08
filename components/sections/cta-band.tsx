@@ -42,7 +42,7 @@ export function CtaBand({ t, tag, whatsappHref }: { t: Dictionary["cta"]; tag: S
             </a>
           </div>
         </Reveal>
-        <div data-one-i-end aria-hidden="true" className="h-56 sm:h-64 lg:h-[min(26rem,52svh)]">
+        <div data-one-i-end aria-hidden="true" className="h-56 sm:h-64 lg:h-[min(22rem,44svh)]">
           {/* prefers-reduced-motion: tanpa ekor, "i" statis. */}
           <StaticI className="mx-auto hidden h-full w-auto fill-white motion-reduce:block" />
         </div>

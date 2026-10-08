@@ -147,8 +147,9 @@ export function OneITail() {
       const vh = window.innerHeight;
       const page = hero.querySelector(".px-page");
       const gutter = page ? parseFloat(getComputedStyle(page).paddingRight) : 20;
-      const width = Math.min(56, Math.max(8, gutter * 0.55));
-      const dotR = width * 0.55;
+      // Tebal "i" + ekor: sedang (±23px di 1440, 26px maks., 10px di HP), tetap muat di gutter.
+      const width = Math.min(26, Math.max(10, gutter * 0.32));
+      const dotR = width * 0.65;
       const xRight = box.width - gutter / 2;
       const xLeft = gutter / 2;
       const heroBox = rel(hero.getBoundingClientRect());

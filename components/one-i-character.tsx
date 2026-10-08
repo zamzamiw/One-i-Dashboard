@@ -4,7 +4,7 @@
 // berdiri di gutter kanan hero. prefers-reduced-motion: "i" statis di kotak ini.
 export function OneICharacter() {
   return (
-    <div data-one-i-start aria-hidden="true" className="hidden h-56 motion-reduce:block lg:block lg:h-[min(34rem,62svh)]">
+    <div data-one-i-start aria-hidden="true" className="hidden h-56 motion-reduce:block lg:block lg:h-[min(26rem,48svh)]">
       <StaticI className="mx-auto hidden h-full w-auto fill-brand-blue motion-reduce:block" />
     </div>
   );
